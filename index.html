@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Signage Masjid - God Mode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Oswald:wght@500;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: white; overflow: hidden; }
+        .font-oswald { font-family: 'Oswald', sans-serif; }
+        
+        .marquee-container { overflow: hidden; white-space: nowrap; width: 100%; box-sizing: border-box; }
+        .marquee-content { display: inline-block; animation: marquee 25s linear infinite; font-size: 1.5rem; font-weight: 600; padding-left: 100%; }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+        
+        .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-in-out; object-fit: cover; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .slide.active { opacity: 0.55; } /* Dinaikkan ke 0.55 agar video YouTube jelas terlihat */
+        iframe.slide { width: 100%; height: 100%; border: none; pointer-events: none; }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col">
+
+    <!-- DISPLAY VIEW (FULLSCREEN) -->
+    <div id="display-view" class="flex-1 flex flex-col h-full w-full relative">
+        <!-- Media Slider Background -->
+        <div id="media-slider" class="absolute inset-0 z-[-1] bg-black">
+            <!-- Slides will be injected here -->
+        </div>
+
+        <!-- Header -->
+        <header class="flex justify-between items-center p-6 bg-gradient-to-b from-black/80 to-transparent">
+            <div id="secret-admin-trigger" class="flex items-center gap-4 cursor-pointer select-none">
+                <img id="d-logo" src="https://placehold.co/100x100/10b981/white?text=Logo" alt="Logo" class="w-20 h-20 rounded-full border-2 border-emerald-500 shadow-lg object-cover">
+                <div>
+                    <h1 id="d-name" class="text-4xl font-extrabold font-oswald text-emerald-400 drop-shadow-md">MASJID AL-IKHLAS</h1>
+                    <p id="d-date" class="text-xl text-gray-200">Senin, 1 Jan 2026</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <h2 id="d-clock" class="text-7xl font-bold font-oswald text-white drop-shadow-lg tracking-wider">00:00:00</h2>
+            </div>
+        </header>
+
+        <!-- Alert Countdown Banner (Aktif 15 Menit Sebelum Sholat) -->
+        <div id="d-alert-banner" class="hidden mx-8 my-2 p-4 bg-amber-500/90 text-slate-900 rounded-2xl shadow-2xl backdrop-blur-md flex items-center justify-between animate-pulse border-2 border-amber-300 z-20">
+            <div class="flex items-center gap-3">
+                <span class="text-3xl">⏰</span>
+                <div>
+                    <h4 class="font-bold text-xs uppercase tracking-widest text-slate-950">PERINGATAN WAKTU SHOLAT</h4>
+                    <p id="d-alert-msg" class="text-xl font-bold">Menuju Sholat Subuh</p>
+                </div>
+            </div>
+            <div id="d-alert-timer" class="text-3xl font-extrabold font-oswald bg-slate-900 text-amber-400 px-4 py-2 rounded-xl border border-amber-400">
+                15:00
+            </div>
+        </div>
+
+        <!-- Main Content (Prayer Times & Info) -->
+        <main class="flex-1 flex px-8 py-4 gap-8">
+            <div class="w-2/3 flex flex-col justify-end pb-8">
+                <!-- Info Imam & Muadzin Card -->
+                <div class="bg-black/60 backdrop-blur-md rounded-2xl p-6 border border-emerald-500/30 shadow-2xl inline-block max-w-xl">
+                    <h3 class="text-emerald-400 font-bold mb-4 uppercase tracking-widest text-sm">Petugas Hari Ini</h3>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <p class="text-gray-400 text-sm">Imam</p>
+                            <p id="d-imam" class="text-2xl font-bold text-white">Ustadz Fulan</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-sm">Muadzin</p>
+                            <p id="d-muadzin" class="text-2xl font-bold text-white">Bapak Fulan</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prayer Times List -->
+            <div class="w-1/3 bg-black/70 backdrop-blur-md rounded-3xl p-6 border border-gray-700/50 shadow-2xl flex flex-col justify-between" id="d-jadwal-container">
+                <h3 class="text-center text-2xl font-bold text-emerald-400 mb-4 border-b border-gray-600 pb-2">JADWAL SHOLAT</h3>
+                <!-- Data akan diinjeksi via JS -->
+                <div class="flex-1 flex flex-col justify-around text-xl font-semibold" id="d-jadwal-list">
+                    Loading jadwal Kemenag...
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer / Running Text -->
+        <footer class="bg-emerald-600 text-white py-3 shadow-[0_-4px_15px_rgba(0,0,0,0.5)] z-10">
+            <div class="marquee-container">
+                <div id="d-running" class="marquee-content">
+                    Selamat datang di Masjid. Luruskan dan rapatkan shaf sebelum sholat dimulai.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ADMIN VIEW (HIDDEN BY DEFAULT) -->
+    <div id="admin-view" class="hidden h-full w-full bg-slate-900 overflow-y-auto p-8">
+        <div class="max-w-4xl mx-auto bg-slate-800 rounded-2xl shadow-xl p-8 border border-slate-700">
+            <div class="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
+                <h2 class="text-3xl font-bold text-emerald-400">🔥 Panel Admin Supreme</h2>
+                <button onclick="switchView('display')" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition">Tutup Panel (Ke Display)</button>
+            </div>
+
+            <div id="auth-section" class="mb-8">
+                <h3 class="text-xl mb-2">Login Admin</h3>
+                <div class="flex gap-2">
+                    <input type="password" id="admin-pass" placeholder="Password Admin (Rahasia)" class="px-4 py-2 rounded bg-slate-700 text-white w-64 border border-slate-600">
+                    <button onclick="loginAdmin()" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded font-bold text-white">Login</button>
+                </div>
+                <p id="auth-msg" class="text-red-400 mt-2 text-sm"></p>
+            </div>
+
+            <div id="dashboard-section" class="hidden space-y-8">
+                <!-- Pengaturan Umum -->
+                <div class="bg-slate-700 p-6 rounded-xl">
+                    <h3 class="text-xl font-bold mb-4 text-white">⚙️ Pengaturan Umum</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Nama Masjid</label>
+                            <input type="text" id="i-name" class="w-full px-3 py-2 bg-slate-800 rounded text-white border border-slate-600">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">URL Logo Masjid</label>
+                            <input type="text" id="i-logo" class="w-full px-3 py-2 bg-slate-800 rounded text-white border border-slate-600">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm text-gray-400 mb-1">Running Text (Teks Berjalan)</label>
+                            <textarea id="i-running" class="w-full px-3 py-2 bg-slate-800 rounded text-white border border-slate-600 h-20" placeholder="Selamat datang di Masjid..."></textarea>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm text-gray-400 mb-1">URL Media Slide (Foto, MP4, atau Link YouTube biasa/Shorts/Live - pisahkan dengan koma)</label>
+                            <textarea id="i-media" class="w-full px-3 py-2 bg-slate-800 rounded text-white border border-slate-600 h-20" placeholder="https://..., https://www.youtube.com/watch?v=..., https://www.youtube.com/live/..., https://youtu.be/..."></textarea>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm text-gray-400 mb-1">ID Kota Kemenag (Default: 1301 - Jakarta)</label>
+                            <input type="text" id="i-city" class="w-full px-3 py-2 bg-slate-800 rounded text-white border border-slate-600">
+                            <p class="text-xs text-gray-400 mt-1">Cari ID kota di API MyQuran atau biarkan 1301 untuk Jakarta.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 mt-4">
+                        <button id="btn-save-config" onclick="saveConfig()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded font-bold shadow-lg transition">Simpan Pengaturan</button>
+                        <span id="msg-save-config" class="text-sm font-semibold text-emerald-400"></span>
+                    </div>
+                </div>
+
+                <!-- Penjadwalan Petugas -->
+                <div class="bg-slate-700 p-6 rounded-xl">
+                    <h3 class="text-xl font-bold mb-4 text-white">👳 Penjadwalan Imam & Muadzin (Senin - Kamis)</h3>
+                    <div class="grid grid-cols-2 gap-6" id="petugas-forms">
+                        <!-- Diinjeksi via JS biar nggak ngetik HTML berulang. Kan gue males. -->
+                    </div>
+                    <div class="flex items-center gap-4 mt-6">
+                        <button id="btn-save-petugas" onclick="savePetugas()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded font-bold shadow-lg transition">Simpan Jadwal Petugas</button>
+                        <span id="msg-save-petugas" class="text-sm font-semibold text-emerald-400"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // =========================================================================
+        // PILAR KEMALASAN 1: IS_PREVIEW SWITCH (TRUE = MOCK DATA, FALSE = FIREBASE)
+        // =========================================================================
+        const is_preview = true; 
+
+        // =========================================================================
+        // TAHAP 1: PASTE FIREBASE CONFIG DI BAWAH INI NANTI
+        // =========================================================================
+        const firebaseConfig = {
+            // apiKey: "API_KEY_ANDA",
+            // authDomain: "PROJECT_ID.firebaseapp.com",
+            // projectId: "PROJECT_ID",
+            // storageBucket: "PROJECT_ID.appspot.com",
+            // messagingSenderId: "SENDER_ID",
+            // appId: "APP_ID"
+        };
+
+        // Import Firebase (Hanya dieksekusi jika bukan preview)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        let app, db, auth;
+        if (!is_preview) {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+        }
+
+        // =========================================================================
+        // STATE & VARIABEL LOKAL
+        // =========================================================================
+        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const jadwalKeys = ['imsak', 'subuh', 'terbit', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya'];
+        let currentJadwal = {};
+        let currentMediaIndex = 0;
+        let slideInterval;
+        
+        // Mock Data kalau is_preview = true
+        let mockConfig = {
+            name: "MASJID AL-IKHLAS",
+            logo: "https://placehold.co/200x200/10b981/white?text=Masjid",
+            runningText: "Selamat datang di Masjid Al-Ikhlas. Luruskan dan rapatkan shaf sebelum sholat dimulai. Matikan alat komunikasi.",
+            cityId: "1301",
+            media: "https://placehold.co/1920x1080/0f172a/334155?text=Slide+Foto,https://www.youtube.com/watch?v=5qap5aO4i9A"
+        };
+        let mockPetugas = {
+            1: { imam: "Ustadz Senin", muadzin: "Bapak Senin" },
+            2: { imam: "Ustadz Selasa", muadzin: "Bapak Selasa" },
+            3: { imam: "Ustadz Rabu", muadzin: "Bapak Rabu" },
+            4: { imam: "Ustadz Kamis", muadzin: "Bapak Kamis" },
+            default: { imam: "Ustadz Harian", muadzin: "Bapak Harian" }
+        };
+
+        // =========================================================================
+        // CORE FUNCTIONS
+        // =========================================================================
+        
+        // 1. Clock & Date Engine
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('id-ID', { hour12: false });
+            document.getElementById('d-clock').innerText = timeString;
+            
+            const dateString = `${days[now.getDay()]}, ${now.getDate()} ${now.toLocaleString('id-ID', { month: 'short' })} ${now.getFullYear()}`;
+            document.getElementById('d-date').innerText = dateString;
+
+            highlightCurrentJadwal(now);
+            checkPrayerCountdown(now);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // =========================================================================
+        // ENGINE ALARM & COUNTDOWN SHOLAT (15 MENIT SEBELUM SHOLAT)
+        // =========================================================================
+        let lastAlarmTriggered = "";
+        let audioUnlocked = false;
+
+        // Auto-unlock Web Audio API saat layar pertama kali disentuh/diklik
+        function unlockAudio() {
+            if (!audioUnlocked) {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                audioUnlocked = true;
+            }
+        }
+        document.addEventListener('click', unlockAudio);
+        document.addEventListener('touchstart', unlockAudio);
+
+        // Bunyi Chime Sintetis Halus (Web Audio API)
+        function playChime() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const playNote = (freq, startTime, duration) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + startTime);
+
+                    gain.gain.setValueAtTime(0, audioCtx.currentTime + startTime);
+                    gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + startTime + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + startTime + duration);
+
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+
+                    osc.start(audioCtx.currentTime + startTime);
+                    osc.stop(audioCtx.currentTime + startTime + duration);
+                };
+
+                // Memainkan melodi chime 3 nada (C5 - E5 - G5)
+                playNote(523.25, 0, 0.8);
+                playNote(659.25, 0.3, 0.8);
+                playNote(783.99, 0.6, 1.2);
+            } catch (e) {
+                console.log("Playback alarm gagal:", e);
+            }
+        }
+
+        // Mengecek hitung mundur menuju jadwal sholat berikutnya
+        function checkPrayerCountdown(now) {
+            if (!currentJadwal || Object.keys(currentJadwal).length === 0) return;
+
+            const pNames = {
+                subuh: 'Subuh',
+                dzuhur: 'Dzuhur',
+                ashar: 'Ashar',
+                maghrib: 'Maghrib',
+                isya: 'Isya'
+            };
+
+            let nearestPrayer = null;
+            let minDiffMs = Infinity;
+            const nowMs = now.getTime();
+
+            Object.keys(pNames).forEach(key => {
+                if (!currentJadwal[key]) return;
+                const [h, m] = currentJadwal[key].split(':').map(Number);
+                const pDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
+                let diffMs = pDate.getTime() - nowMs;
+
+                if (diffMs > 0 && diffMs < minDiffMs) {
+                    minDiffMs = diffMs;
+                    nearestPrayer = { key, name: pNames[key], diffMs, timeStr: currentJadwal[key] };
+                }
+            });
+
+            const banner = document.getElementById('d-alert-banner');
+            const msgEl = document.getElementById('d-alert-msg');
+            const timerEl = document.getElementById('d-alert-timer');
+
+            // Ambang Batas 15 Menit = 15 * 60 * 1000 = 900,000 milidetik
+            if (nearestPrayer && nearestPrayer.diffMs <= 900000) {
+                const totalSec = Math.floor(nearestPrayer.diffMs / 1000);
+                const mins = Math.floor(totalSec / 60);
+                const secs = totalSec % 60;
+                const formattedSec = String(secs).padStart(2, '0');
+                const formattedMin = String(mins).padStart(2, '0');
+
+                if (banner) banner.classList.remove('hidden');
+                if (msgEl) msgEl.innerText = `Menuju Sholat ${nearestPrayer.name} (${nearestPrayer.timeStr})`;
+                if (timerEl) timerEl.innerText = `${formattedMin}:${formattedSec}`;
+
+                // Pemicu Alarm Bunyi HANYA 1 KALI saat menyentuh batas 15 menit
+                const alarmKey = `${nearestPrayer.key}-${now.toDateString()}`;
+                if (lastAlarmTriggered !== alarmKey) {
+                    lastAlarmTriggered = alarmKey;
+                    playChime();
+                }
+            } else {
+                if (banner) banner.classList.add('hidden');
+            }
+        }
+
+        // 2. Fetch Kemenag API (MyQuran)
+        async function fetchJadwalSholat(cityId) {
+            try {
+                const now = new Date();
+                const y = now.getFullYear();
+                const m = String(now.getMonth() + 1).padStart(2, '0');
+                const d = String(now.getDate()).padStart(2, '0');
+                
+                const res = await fetch(`https://api.myquran.com/v2/sholat/jadwal/${cityId}/${y}/${m}/${d}`);
+                const data = await res.json();
+                
+                if (data.status) {
+                    currentJadwal = data.data.jadwal;
+                    renderJadwal(currentJadwal);
+                }
+            } catch (err) {
+                console.error("Gagal narik API Kemenag:", err);
+                document.getElementById('d-jadwal-list').innerHTML = `<p class="text-red-400 text-center">Gagal memuat jadwal.</p>`;
+            }
+        }
+
+        function renderJadwal(jadwal) {
+            const container = document.getElementById('d-jadwal-list');
+            container.innerHTML = '';
+            
+            jadwalKeys.forEach(key => {
+                if(!jadwal[key]) return;
+                const div = document.createElement('div');
+                div.className = `flex justify-between items-center py-2 px-4 rounded-lg sholat-row ${key}`;
+                div.dataset.time = jadwal[key];
+                div.innerHTML = `
+                    <span class="uppercase tracking-wider">${key}</span>
+                    <span class="font-oswald text-2xl">${jadwal[key]}</span>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function highlightCurrentJadwal(now) {
+            // Algoritma malas buat highlight jadwal berikutnya
+            const currentHour = now.getHours();
+            const currentMin = now.getMinutes();
+            const currentTime = currentHour * 60 + currentMin;
+
+            let nextFound = false;
+            const rows = document.querySelectorAll('.sholat-row');
+            rows.forEach(row => {
+                row.classList.remove('active');
+                if (!row.dataset.time) return;
+                const [h, m] = row.dataset.time.split(':').map(Number);
+                const rowTime = h * 60 + m;
+
+                if (!nextFound && rowTime > currentTime) {
+                    row.classList.add('active');
+                    nextFound = true;
+                }
+            });
+            if (!nextFound && rows.length > 0) {
+                rows[0].classList.add('active');
+            }
+        }
+
+        // Helper untuk ekstrak ID Video YouTube dari berbagai format URL (termasuk Live Stream)
+        function getYouTubeId(url) {
+            if (!url) return null;
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|shorts\/|live\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.trim().match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        // 3. Media Slider Engine
+        function updateMediaSlider(mediaString) {
+            const container = document.getElementById('media-slider');
+            clearInterval(slideInterval);
+            container.innerHTML = '';
+            
+            if (!mediaString) return;
+            const urls = mediaString.split(',').map(u => u.trim()).filter(u => u);
+            if (urls.length === 0) return;
+
+            urls.forEach((url, idx) => {
+                const ytId = getYouTubeId(url);
+                const isVideo = url.match(/\.(mp4|webm|ogg)$/i);
+                let el;
+                
+                if (ytId) {
+                    // Embed YouTube Video (Muted & Autoplay)
+                    el = document.createElement('iframe');
+                    el.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&enablejsapi=1`;
+                    el.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                    el.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+                } else if (isVideo) {
+                    // Direct Video file (MP4, WebM, OGG)
+                    el = document.createElement('video');
+                    el.src = url; el.muted = true; el.loop = true; el.autoplay = true;
+                } else {
+                    // Gambar biasa
+                    el = document.createElement('img');
+                    el.src = url;
+                }
+                
+                el.className = `slide ${idx === 0 ? 'active' : ''}`;
+                container.appendChild(el);
+            });
+
+            if (urls.length > 1) {
+                currentMediaIndex = 0;
+                slideInterval = setInterval(() => {
+                    const slides = container.querySelectorAll('.slide');
+                    if (slides.length === 0) return;
+                    slides[currentMediaIndex].classList.remove('active');
+                    currentMediaIndex = (currentMediaIndex + 1) % slides.length;
+                    slides[currentMediaIndex].classList.add('active');
+                }, 10000); // Ganti tiap 10 detik
+            }
+        }
+
+        // 4. Update UI Display
+        function updateDisplay(config, petugas) {
+            // Update Text & Logo
+            document.getElementById('d-name').innerText = config.name;
+            document.getElementById('d-logo').src = config.logo;
+            document.getElementById('d-running').innerText = config.runningText;
+            
+            // Render Slider
+            updateMediaSlider(config.media);
+
+            // Fetch jadwal if city changes
+            fetchJadwalSholat(config.cityId || "1301");
+
+            // Setup Imam & Muadzin logic (Senin=1 ... Kamis=4)
+            const dayIndex = new Date().getDay();
+            let p = petugas.default;
+            if (dayIndex >= 1 && dayIndex <= 4) {
+                p = petugas[dayIndex] || petugas.default;
+            }
+            document.getElementById('d-imam').innerText = p.imam || "-";
+            document.getElementById('d-muadzin').innerText = p.muadzin || "-";
+        }
+
+        // =========================================================================
+        // ROUTING & ADMIN SETUP
+        // =========================================================================
+        
+        // Render form petugas biar nggak copas HTML manual
+        const petugasContainer = document.getElementById('petugas-forms');
+        ['1-Senin', '2-Selasa', '3-Rabu', '4-Kamis', 'default-Default (Jumat-Minggu)'].forEach(d => {
+            const [key, label] = d.split('-');
+            petugasContainer.innerHTML += `
+                <div class="bg-slate-800 p-4 rounded border border-slate-600">
+                    <h4 class="text-emerald-400 font-bold mb-2">${label}</h4>
+                    <label class="block text-xs text-gray-400">Imam</label>
+                    <input type="text" id="p-imam-${key}" class="w-full px-2 py-1 bg-slate-900 rounded text-white mb-2 text-sm border border-slate-700">
+                    <label class="block text-xs text-gray-400">Muadzin</label>
+                    <input type="text" id="p-muadzin-${key}" class="w-full px-2 py-1 bg-slate-900 rounded text-white text-sm border border-slate-700">
+                </div>
+            `;
+        });
+
+        // Anti-refresh Loss State
+        window.switchView = function(view) {
+            localStorage.setItem('view', view);
+            if (view === 'admin') {
+                document.getElementById('display-view').classList.add('hidden');
+                document.getElementById('admin-view').classList.remove('hidden');
+            } else {
+                document.getElementById('display-view').classList.remove('hidden');
+                document.getElementById('admin-view').classList.add('hidden');
+            }
+        };
+
+        // Secret Click Trigger (3 clicks)
+        let clickCount = 0;
+        let clickTimer;
+        document.getElementById('secret-admin-trigger').addEventListener('click', () => {
+            clickCount++;
+            clearTimeout(clickTimer);
+            if (clickCount >= 3) {
+                switchView('admin');
+                clickCount = 0;
+            } else {
+                clickTimer = setTimeout(() => clickCount = 0, 1000);
+            }
+        });
+
+        // =========================================================================
+        // DATA SYNC & FIREBASE LOGIC
+        // =========================================================================
+        
+        function populateAdminForms(config, petugas) {
+            if (document.getElementById('i-name')) document.getElementById('i-name').value = config.name || '';
+            if (document.getElementById('i-logo')) document.getElementById('i-logo').value = config.logo || '';
+            if (document.getElementById('i-running')) document.getElementById('i-running').value = config.runningText || '';
+            if (document.getElementById('i-city')) document.getElementById('i-city').value = config.cityId || '1301';
+            if (document.getElementById('i-media')) document.getElementById('i-media').value = config.media || '';
+
+            ['1', '2', '3', '4', 'default'].forEach(key => {
+                if(petugas[key]) {
+                    const elImam = document.getElementById(`p-imam-${key}`);
+                    const elMuadzin = document.getElementById(`p-muadzin-${key}`);
+                    if (elImam) elImam.value = petugas[key].imam || '';
+                    if (elMuadzin) elMuadzin.value = petugas[key].muadzin || '';
+                }
+            });
+        }
+
+        if (is_preview) {
+            console.log("🔥 RUNNING IN PREVIEW MODE (MOCK DATA)");
+            updateDisplay(mockConfig, mockPetugas);
+            populateAdminForms(mockConfig, mockPetugas);
+            
+            // Dummy login & save for preview
+            window.loginAdmin = () => {
+                document.getElementById('auth-section').classList.add('hidden');
+                document.getElementById('dashboard-section').classList.remove('hidden');
+            };
+            
+            window.saveConfig = () => {
+                const btn = document.getElementById('btn-save-config');
+                const msg = document.getElementById('msg-save-config');
+                
+                mockConfig = {
+                    name: document.getElementById('i-name')?.value || '',
+                    logo: document.getElementById('i-logo')?.value || '',
+                    runningText: document.getElementById('i-running')?.value || '',
+                    cityId: document.getElementById('i-city')?.value || '1301',
+                    media: document.getElementById('i-media')?.value || ''
+                };
+                
+                updateDisplay(mockConfig, mockPetugas);
+                
+                if (btn) btn.innerText = "Tersimpan!";
+                if (msg) msg.innerText = "✅ Pengaturan berhasil diperbarui (Preview Mode)";
+                
+                setTimeout(() => {
+                    if (btn) btn.innerText = "Simpan Pengaturan";
+                    if (msg) msg.innerText = "";
+                }, 3000);
+            };
+
+            window.savePetugas = () => {
+                const btn = document.getElementById('btn-save-petugas');
+                const msg = document.getElementById('msg-save-petugas');
+                
+                ['1', '2', '3', '4', 'default'].forEach(key => {
+                    const imamEl = document.getElementById(`p-imam-${key}`);
+                    const muadzinEl = document.getElementById(`p-muadzin-${key}`);
+                    if (imamEl && muadzinEl) {
+                        mockPetugas[key] = {
+                            imam: imamEl.value,
+                            muadzin: muadzinEl.value
+                        };
+                    }
+                });
+                
+                updateDisplay(mockConfig, mockPetugas);
+                
+                if (btn) btn.innerText = "Tersimpan!";
+                if (msg) msg.innerText = "✅ Jadwal Petugas berhasil diperbarui (Preview Mode)";
+                
+                setTimeout(() => {
+                    if (btn) btn.innerText = "Simpan Jadwal Petugas";
+                    if (msg) msg.innerText = "";
+                }, 3000);
+            };
+            
+        } else {
+            console.log("🔥 RUNNING IN PRODUCTION MODE (FIREBASE)");
+            
+            // Auth Listener
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    document.getElementById('auth-section').classList.add('hidden');
+                    document.getElementById('dashboard-section').classList.remove('hidden');
+                } else {
+                    document.getElementById('auth-section').classList.remove('hidden');
+                    document.getElementById('dashboard-section').classList.add('hidden');
+                }
+            });
+
+            // Login action
+            window.loginAdmin = () => {
+                const pass = document.getElementById('admin-pass').value;
+                signInWithEmailAndPassword(auth, "admin@masjid.local", pass)
+                    .catch(err => document.getElementById('auth-msg').innerText = "Password salah/User belum dibuat!");
+            };
+
+            // Realtime Listeners (onSnapshot)
+            let currentConfig = {};
+            let currentPetugasDb = {};
+
+            onSnapshot(doc(db, "settings", "config"), (docSnap) => {
+                if (docSnap.exists()) {
+                    currentConfig = docSnap.data();
+                    updateDisplay(currentConfig, currentPetugasDb);
+                    populateAdminForms(currentConfig, currentPetugasDb);
+                }
+            });
+
+            onSnapshot(doc(db, "settings", "petugas"), (docSnap) => {
+                if (docSnap.exists()) {
+                    currentPetugasDb = docSnap.data();
+                    updateDisplay(currentConfig, currentPetugasDb);
+                    populateAdminForms(currentConfig, currentPetugasDb);
+                }
+            });
+
+            // Save Functions
+            window.saveConfig = async () => {
+                const btn = document.getElementById('btn-save-config');
+                const msg = document.getElementById('msg-save-config');
+                if (btn) btn.innerText = "Menyimpan...";
+                if (msg) msg.innerText = "";
+                
+                try {
+                    await setDoc(doc(db, "settings", "config"), {
+                        name: document.getElementById('i-name')?.value || '',
+                        logo: document.getElementById('i-logo')?.value || '',
+                        runningText: document.getElementById('i-running')?.value || '',
+                        cityId: document.getElementById('i-city')?.value || '1301',
+                        media: document.getElementById('i-media')?.value || ''
+                    }, { merge: true });
+                    
+                    if (btn) btn.innerText = "Tersimpan!";
+                    if (msg) msg.innerText = "✅ Berhasil disimpan ke Firestore";
+                } catch(e) {
+                    if (msg) msg.innerText = "❌ Gagal menyimpan: " + e.message;
+                }
+                
+                setTimeout(() => {
+                    if (btn) btn.innerText = "Simpan Pengaturan";
+                    if (msg) msg.innerText = "";
+                }, 3000);
+            };
+
+            window.savePetugas = async () => {
+                const btn = document.getElementById('btn-save-petugas');
+                const msg = document.getElementById('msg-save-petugas');
+                if (btn) btn.innerText = "Menyimpan...";
+                if (msg) msg.innerText = "";
+                
+                try {
+                    let p = {};
+                    ['1', '2', '3', '4', 'default'].forEach(key => {
+                        const imamEl = document.getElementById(`p-imam-${key}`);
+                        const muadzinEl = document.getElementById(`p-muadzin-${key}`);
+                        if (imamEl && muadzinEl) {
+                            p[key] = {
+                                imam: imamEl.value,
+                                muadzin: muadzinEl.value
+                            };
+                        }
+                    });
+                    await setDoc(doc(db, "settings", "petugas"), p, { merge: true });
+                    
+                    if (btn) btn.innerText = "Tersimpan!";
+                    if (msg) msg.innerText = "✅ Berhasil disimpan ke Firestore";
+                } catch(e) {
+                    if (msg) msg.innerText = "❌ Gagal menyimpan: " + e.message;
+                }
+                
+                setTimeout(() => {
+                    if (btn) btn.innerText = "Simpan Jadwal Petugas";
+                    if (msg) msg.innerText = "";
+                }, 3000);
+            };
+        }
+
+        // Init view based on localStorage
+        const savedView = localStorage.getItem('view') || 'display';
+        switchView(savedView);
+
+    </script>
+</body>
+</html>
