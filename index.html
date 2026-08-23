@@ -580,6 +580,10 @@
                         <label class="block text-slate-400 mb-1">URL Gambar / Video / Link YouTube Slideshow (Pisahkan dengan koma)</label>
                         <input type="text" id="cfg-slides-url" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500" placeholder="https://..., https://youtube.com/watch?v=...">
                     </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">Durasi Pergantian Slide (Detik, jika > 1 media)</label>
+                        <input type="number" id="cfg-slide-duration" min="3" max="60" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500" value="7">
+                    </div>
                 </div>
 
                 <!-- TAB 4: SIMULASI & PENGETESAN SYSTEM -->
@@ -626,7 +630,7 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC (MODUL ES DENGAN YOUTUBE & LAYOUT FIX) -->
+    <!-- JAVASCRIPT LOGIC (MODUL ES DENGAN YOUTUBE, CUSTOM SLIDE DURATION & LAYOUT FIX) -->
     <script type="module">
         // MASTER SWITCH IS_PREVIEW (DIUBAH KE FALSE UNTUK PRODUKSI FIREBASE)
         const is_preview = false;
@@ -659,6 +663,7 @@
             cityId: "1301",
             audioUrl: "https://actions.google.com/sounds/v1/alarms/beep_short.ogg",
             prePrayerMinutes: 15,
+            slideDuration: 7,
             iqomahTimes: { subuh: 10, dzuhur: 10, ashar: 10, maghrib: 10, isya: 10 },
             runningText: "LURUSKAN DAN RAPATKAN SHAF SEBELUM SHOLAT DIMULAI. MOHON MENONAKTIFKAN HP SAAT BERADA DI DALAM MASJID.",
             slides: [
@@ -689,6 +694,8 @@
         let iqomahInterval = null;
         let alarmTriggered = {};
         let autoIqomahTimeout = null;
+        let slideIndex = 0;
+        let activeSlideInterval = null;
 
         // Onload Initialization
         window.onload = function() {
@@ -708,6 +715,7 @@
                             localStorage.setItem("masjid_tv_config", JSON.stringify(appConfig));
                             applyConfigToUI();
                             fetchPrayerSchedule();
+                            renderSlideshow();
                         }
                     }
                 });
@@ -865,6 +873,9 @@
 
             const cfgSlides = document.getElementById("cfg-slides-url");
             if (cfgSlides) cfgSlides.value = (appConfig.slides || []).join(",");
+
+            const cfgSlideDur = document.getElementById("cfg-slide-duration");
+            if (cfgSlideDur) cfgSlideDur.value = appConfig.slideDuration || 7;
 
             ["senin", "selasa", "rabu", "kamis", "jumat", "sabtu", "minggu"].forEach(day => {
                 if (appConfig.officers[day]) {
@@ -1191,7 +1202,6 @@
             return null;
         }
 
-        let slideIndex = 0;
         function renderSlideshow() {
             const box = document.getElementById("slideshow-box");
             if (!box) return;
@@ -1214,10 +1224,19 @@
 
             showCurrentSlide();
 
-            setInterval(() => {
-                slideIndex = (slideIndex + 1) % appConfig.slides.length;
-                showCurrentSlide();
-            }, 7000);
+            if (activeSlideInterval) {
+                clearInterval(activeSlideInterval);
+                activeSlideInterval = null;
+            }
+
+            // Jika jumlah slide lebih dari 1, aktifkan timer pergantian slide sesuai durasi admin
+            if (appConfig.slides.length > 1) {
+                const durationMs = (appConfig.slideDuration || 7) * 1000;
+                activeSlideInterval = setInterval(() => {
+                    slideIndex = (slideIndex + 1) % appConfig.slides.length;
+                    showCurrentSlide();
+                }, durationMs);
+            }
         }
 
         window.toggleAdminModal = function(show) {
@@ -1245,6 +1264,7 @@
             appConfig.cityId = getVal("cfg-city-id");
             appConfig.audioUrl = getVal("cfg-audio-url");
             appConfig.prePrayerMinutes = parseInt(getVal("cfg-pre-prayer-mins")) || 15;
+            appConfig.slideDuration = parseInt(getVal("cfg-slide-duration")) || 7;
             appConfig.runningText = getVal("cfg-running-text");
 
             const slidesRaw = getVal("cfg-slides-url");
@@ -1280,6 +1300,8 @@
 
             applyConfigToUI();
             fetchPrayerSchedule();
+            slideIndex = 0;
+            renderSlideshow();
             toggleAdminModal(false);
         };
 
