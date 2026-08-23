@@ -100,7 +100,7 @@
         [data-template="5"] #grid-bottom-prayer { order: 1; }
         [data-template="5"] #col-left { flex-direction: column-reverse; }
 
-        /* TEMPLATE 6: Full Media TV (Layout Samping Vertical Prayer + Media Raksasa) */
+        /* TEMPLATE 6: Full Media TV (Layout Samping Vertical Prayer + Media Raksasa) - Fixed height calc */
         [data-template="6"] { background-color: #0f172a; color: #f8fafc; }
         [data-template="6"] .theme-card { background-color: #1e293b; border-color: #334155; color: #f8fafc; }
         [data-template="6"] .theme-header-bg { background-color: #0284c7; color: #ffffff; }
@@ -113,7 +113,8 @@
             grid-template-columns: 290px 1fr;
             grid-template-rows: auto 1fr 2.25rem;
             gap: 0.5rem;
-            height: 100vh;
+            height: calc(100vh - 1.5rem);
+            box-sizing: border-box;
         }
         [data-template="6"] #grid-top-section {
             display: contents;
@@ -160,7 +161,7 @@
         }
         [data-template="6"] #col-right > div:first-child {
             height: 3.75rem;
-            shrink: 0;
+            flex-shrink: 0;
         }
         [data-template="6"] #col-right > div:last-child {
             flex: 1;
@@ -206,7 +207,7 @@
         }
     </style>
 </head>
-<body id="app-body" data-template="1" class="h-screen w-screen transition-colors duration-500 overflow-hidden select-none p-3">
+<body id="app-body" data-template="1" class="h-screen w-screen transition-colors duration-500 overflow-hidden select-none p-3 box-border">
 
     <div id="main-container" class="h-full w-full flex flex-col justify-between gap-2.5">
         
@@ -387,7 +388,7 @@
                 DZUHUR
             </h1>
             <p id="notif-desc" class="text-slate-300 text-xs sm:text-base font-medium max-w-lg">
-                Untuk wilayah setempat dan sekitarnya. Mohon mengumandangkan Azan dan bersiap melaksanakan sholat berjamaah.
+                Pengingat bahwa sebentar lagi akan masuk waktu sholat. Mohon bersiap-siap untuk melaksanakan sholat berjamaah.
             </p>
             <div class="flex flex-wrap items-center justify-center gap-3 mt-3">
                 <button onclick="closePrayerNotificationOverlay()" type="button" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-extrabold text-xs cursor-pointer transition shadow-lg active:scale-95">
@@ -576,8 +577,8 @@
                         <textarea id="cfg-running-text" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500"></textarea>
                     </div>
                     <div>
-                        <label class="block text-slate-400 mb-1">URL Gambar Slideshow (Pisahkan dengan koma)</label>
-                        <input type="text" id="cfg-slides-url" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500">
+                        <label class="block text-slate-400 mb-1">URL Gambar / Video / Link YouTube Slideshow (Pisahkan dengan koma)</label>
+                        <input type="text" id="cfg-slides-url" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500" placeholder="https://..., https://youtube.com/watch?v=...">
                     </div>
                 </div>
 
@@ -625,13 +626,11 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // MASTER SWITCH IS_PREVIEW (MOCK DATA VS FIREBASE)
+    <!-- JAVASCRIPT LOGIC (MODUL ES DENGAN YOUTUBE & LAYOUT FIX) -->
+    <script type="module">
+        // MASTER SWITCH IS_PREVIEW (DIUBAH KE FALSE UNTUK PRODUKSI FIREBASE)
         const is_preview = false;
 
-        /*
-        // UNTUK PRODUKSI FIREBASE DEPLOYMENT (Ubah is_preview = false)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
@@ -644,7 +643,12 @@
   appId: "1:61963224337:web:c22f99029321c2f74b38b0",
   measurementId: "G-69Y42J1KHB"
         };
-        */
+
+        let db = null;
+        if (!is_preview) {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+        }
 
         // Default Config & Application State
         let appConfig = {
@@ -652,7 +656,7 @@
             mosqueName: "MASJID WAKTIHA",
             mosqueAddress: "BEKU WANGEN POLANHARJO KLATEN",
             logoUrl: "",
-            cityId: "1301", // Default Klaten / Solo
+            cityId: "1301",
             audioUrl: "https://actions.google.com/sounds/v1/alarms/beep_short.ogg",
             prePrayerMinutes: 15,
             iqomahTimes: { subuh: 10, dzuhur: 10, ashar: 10, maghrib: 10, isya: 10 },
@@ -694,6 +698,20 @@
             startClockLoop();
             renderSlideshow();
             setupDoubleSpaceShortcut();
+            
+            if (!is_preview && db) {
+                onSnapshot(doc(db, "artifacts", "masjid_tv_app", "public", "data"), (docSnap) => {
+                    if (docSnap.exists()) {
+                        const remoteData = docSnap.data();
+                        if (remoteData && remoteData.config) {
+                            appConfig = { ...appConfig, ...remoteData.config };
+                            localStorage.setItem("masjid_tv_config", JSON.stringify(appConfig));
+                            applyConfigToUI();
+                            fetchPrayerSchedule();
+                        }
+                    }
+                });
+            }
         };
 
         function fetchIslamicQuote() {
@@ -787,7 +805,7 @@
             applyConfigToUI();
         }
 
-        function applyConfigToUI() {
+        window.applyConfigToUI = function() {
             document.body.setAttribute("data-template", appConfig.template || "1");
 
             const mosqueNameEl = document.getElementById("disp-mosque-name");
@@ -869,7 +887,7 @@
             if (iqMaghrib) iqMaghrib.value = appConfig.iqomahTimes.maghrib;
             const iqIsya = document.getElementById("cfg-iq-isya");
             if (iqIsya) iqIsya.value = appConfig.iqomahTimes.isya;
-        }
+        };
 
         function startClockLoop() {
             setInterval(() => {
@@ -961,7 +979,7 @@
             return "Kalender Hijriah Islam";
         }
 
-        function fetchPrayerSchedule() {
+        window.fetchPrayerSchedule = function() {
             const now = new Date();
             const year = now.getFullYear();
             const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -985,7 +1003,7 @@
                     }
                 })
                 .catch(err => console.log("Gagal mengambil API Kemenag, menggunakan jadwal lokal", err));
-        }
+        };
 
         function updatePrayerTimingsUI(p) {
             const setT = (id, val) => {
@@ -1001,7 +1019,7 @@
             setT("time-isya", p.isya);
         }
 
-        function playAlarmAudio() {
+        window.playAlarmAudio = function() {
             if (!appConfig.audioUrl) return;
             try {
                 const audio = new Audio(appConfig.audioUrl);
@@ -1009,9 +1027,9 @@
             } catch (e) {
                 console.log("Audio error", e);
             }
-        }
+        };
 
-        function showToast(msg) {
+        window.showToast = function(msg) {
             let toast = document.getElementById("admin-toast");
             if (!toast) {
                 toast = document.createElement("div");
@@ -1026,26 +1044,26 @@
                 toast.classList.remove("opacity-100");
                 toast.classList.add("opacity-0", "pointer-events-none");
             }, 3000);
-        }
+        };
 
-        function testAudioAlarm() {
+        window.testAudioAlarm = function() {
             playAlarmAudio();
             showToast("🔊 Sedang memutar audio alarm pengingat!");
-        }
+        };
 
-        function testPrePrayerWarning() {
+        window.testPrePrayerWarning = function() {
             playAlarmAudio();
             showToast(`🔔 Simulasi Peringatan ${appConfig.prePrayerMinutes || 15} Menit Menjelang Sholat!`);
             showPrePrayerWarningOverlay("DZUHUR", appConfig.prePrayerMinutes || 15);
             toggleAdminModal(false);
-        }
+        };
 
         function showPrePrayerWarningOverlay(prayerName, mins) {
             const badgeEl = document.getElementById("notif-badge-title");
-            if (badgeEl) badgeEl.innerText = `PENGINGAT PRA-WAKTU SHOLAT (${mins} MENIT)`;
+            if (badgeEl) badgeEl.innerText = `PERINGATAN PRA-WAKTU SHOLAT (${mins} MENIT)`;
 
             const subEl = document.getElementById("notif-subtitle");
-            if (subEl) subEl.innerText = `Sebentar lagi akan masuk waktu sholat`;
+            if (subEl) subEl.innerText = `MENJELANG MASUK WAKTU SHOLAT`;
 
             const elName = document.getElementById("prayer-notif-name");
             if (elName) elName.innerText = prayerName || "DZUHUR";
@@ -1060,14 +1078,14 @@
             }
         }
 
-        function testMasukSholat() {
+        window.testMasukSholat = function() {
             playAlarmAudio();
             const statusBar = document.getElementById("status-text");
             if (statusBar) statusBar.innerText = "WAKTU SHOLAT DZUHUR TELAH MASUK!";
             showToast("🕌 Simulasi masuk waktu sholat berjalan!");
             showPrayerNotificationOverlay("DZUHUR");
             toggleAdminModal(false);
-        }
+        };
 
         function showPrayerNotificationOverlay(prayerName) {
             const badgeEl = document.getElementById("notif-badge-title");
@@ -1096,28 +1114,28 @@
             }, 60000);
         }
 
-        function closePrayerNotificationOverlay() {
+        window.closePrayerNotificationOverlay = function() {
             if (autoIqomahTimeout) clearTimeout(autoIqomahTimeout);
             const overlay = document.getElementById("prayer-notification-overlay");
             if (overlay) {
                 overlay.classList.add("hidden");
                 overlay.classList.remove("flex");
             }
-        }
+        };
 
-        function startIqomahFromNotif() {
+        window.startIqomahFromNotif = function() {
             if (autoIqomahTimeout) clearTimeout(autoIqomahTimeout);
             closePrayerNotificationOverlay();
             const prayerName = document.getElementById("prayer-notif-name")?.innerText || "DZUHUR";
             const key = prayerName.toLowerCase();
             const iqomahMin = appConfig.iqomahTimes[key] || 10;
             startIqomahCountdown(iqomahMin * 60);
-        }
+        };
 
-        function testIqomahFullscreen() {
+        window.testIqomahFullscreen = function() {
             toggleAdminModal(false);
             startIqomahCountdown(15);
-        }
+        };
 
         function startIqomahCountdown(seconds) {
             const overlay = document.getElementById("iqomah-overlay");
@@ -1149,13 +1167,28 @@
             timerEl.innerText = `${m}:${s}`;
         }
 
-        function closeIqomahOverlay() {
+        window.closeIqomahOverlay = function() {
             if (iqomahInterval) clearInterval(iqomahInterval);
             const overlay = document.getElementById("iqomah-overlay");
             if (overlay) {
                 overlay.classList.add("hidden");
                 overlay.classList.remove("flex");
             }
+        };
+
+        function getYouTubeEmbedUrl(url) {
+            let videoId = '';
+            if (url.includes('youtube.com/watch?v=')) {
+                videoId = url.split('v=')[1]?.split('&')[0];
+            } else if (url.includes('youtu.be/')) {
+                videoId = url.split('youtu.be/')[1]?.split('?')[0];
+            } else if (url.includes('youtube.com/embed/')) {
+                videoId = url.split('embed/')[1]?.split('?')[0];
+            }
+            if (videoId) {
+                return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}`;
+            }
+            return null;
         }
 
         let slideIndex = 0;
@@ -1167,18 +1200,27 @@
                 return;
             }
 
-            setInterval(() => {
-                slideIndex = (slideIndex + 1) % appConfig.slides.length;
+            const showCurrentSlide = () => {
                 const src = appConfig.slides[slideIndex];
-                if (src.endsWith(".mp4") || src.endsWith(".webm")) {
+                const ytEmbed = getYouTubeEmbedUrl(src);
+                if (ytEmbed) {
+                    box.innerHTML = `<iframe src="${ytEmbed}" class="w-full h-full object-cover border-0 pointer-events-none" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                } else if (src.endsWith(".mp4") || src.endsWith(".webm")) {
                     box.innerHTML = `<video src="${src}" autoplay loop muted class="w-full h-full object-cover"></video>`;
                 } else {
-                    box.innerHTML = `<img src="${src}" class="w-full h-full object-cover" alt="Slide">`;
+                    box.innerHTML = `<img src="${src}" class="w-full h-full object-cover" alt="Slide" onerror="this.src='https://placehold.co/1200x800/064e3b/ffffff?text=Masjid+Waktiha'">`;
                 }
+            };
+
+            showCurrentSlide();
+
+            setInterval(() => {
+                slideIndex = (slideIndex + 1) % appConfig.slides.length;
+                showCurrentSlide();
             }, 7000);
         }
 
-        function toggleAdminModal(show) {
+        window.toggleAdminModal = function(show) {
             const modal = document.getElementById("admin-modal");
             if (!modal) return;
             if (show) {
@@ -1188,9 +1230,9 @@
                 modal.classList.add("hidden");
                 modal.classList.remove("flex");
             }
-        }
+        };
 
-        function saveAdminConfig() {
+        window.saveAdminConfig = function() {
             const getVal = (id) => {
                 const el = document.getElementById(id);
                 return el ? el.value : "";
@@ -1224,11 +1266,22 @@
             };
 
             localStorage.setItem("masjid_tv_config", JSON.stringify(appConfig));
+
+            if (!is_preview && db) {
+                setDoc(doc(db, "artifacts", "masjid_tv_app", "public", "data"), { config: appConfig })
+                    .then(() => {
+                        showToast("Konfigurasi tersimpan & tersinkron ke Cloud Firestore!");
+                    })
+                    .catch(err => {
+                        console.error("Gagal simpan ke Firestore", err);
+                        showToast("Gagal menyimpan ke Cloud Firestore!");
+                    });
+            }
+
             applyConfigToUI();
             fetchPrayerSchedule();
             toggleAdminModal(false);
-            showToast("Konfigurasi berhasil disimpan & Jadwal tersinkron!");
-        }
+        };
 
         function checkPrayerTimings(now) {
             const currentSecondsTotal = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
