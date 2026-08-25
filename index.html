@@ -24,7 +24,6 @@
             font-family: 'Amiri', 'Traditional Arabic', serif !important;
             direction: rtl;
             font-style: normal !important;
-            font-size: 1.35rem !important;
             line-height: 2.3 !important;
             letter-spacing: 0px !important;
         }
@@ -111,7 +110,7 @@
         [data-template="6"] #main-container {
             display: grid;
             grid-template-columns: 290px 1fr;
-            grid-template-rows: auto 1fr 2.25rem;
+            grid-template-rows: auto 1fr auto;
             gap: 0.5rem;
             height: calc(100vh - 1.5rem);
             box-sizing: border-box;
@@ -388,7 +387,7 @@
             <div id="col-left" class="col-span-4 flex flex-col gap-2.5 h-full min-h-0">
                 
                 <!-- CARD 1: DATE & HOLIDAY BADGE -->
-                <div class="theme-card rounded-2xl p-3 shadow-sm border flex flex-col justify-center gap-1 shrink-0 overflow-hidden">
+                <div class="theme-card rounded-2xl p-3 shadow-sm border flex flex-col justify-center gap-1 shrink-0 overflow-hidden relative group">
                     <div id="display-date-masehi" class="theme-text-primary font-extrabold text-sm sm:text-base leading-tight truncate">
                         Minggu, 23 Agustus 2026
                     </div>
@@ -399,10 +398,20 @@
                         <span class="text-xs shrink-0">⏳</span>
                         <span id="display-event-badge" class="text-[10px] sm:text-[11px] font-extrabold text-slate-700 leading-tight whitespace-normal">2 Hari lagi: Maulid Nabi Muhammad SAW</span>
                     </div>
+                    <!-- Hover Font Control (Bottom Right) -->
+                    <div class="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-1 z-50">
+                        <button onclick="adjustFontSize('date', 0.05)" class="bg-black/60 hover:bg-emerald-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-plus"></i></button>
+                        <button onclick="adjustFontSize('date', -0.05)" class="bg-black/60 hover:bg-rose-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-minus"></i></button>
+                    </div>
                 </div>
 
                 <!-- CARD 2: GIANT DIGITAL CLOCK & STATUS -->
-                <div class="theme-card rounded-2xl p-4 shadow-sm border flex flex-col items-center justify-center text-center shrink-0">
+                <div class="theme-card rounded-2xl p-4 shadow-sm border flex flex-col items-center justify-center text-center shrink-0 relative group">
+                    <!-- Hover Font Control (Top Left) -->
+                    <div class="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-1 z-50">
+                        <button onclick="adjustFontSize('clock', 0.25)" class="bg-black/60 hover:bg-emerald-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-plus"></i></button>
+                        <button onclick="adjustFontSize('clock', -0.25)" class="bg-black/60 hover:bg-rose-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-minus"></i></button>
+                    </div>
                     <div id="display-clock" class="text-6xl font-black theme-text-primary tracking-tight leading-none my-1">
                         08:31:04
                     </div>
@@ -413,7 +422,12 @@
                 </div>
 
                 <!-- CARD 3: PETUGAS SHOLAT HARI INI (FIT/COMPACT - SHRINK-0) -->
-                <div class="theme-card rounded-2xl p-3 shadow-sm border shrink-0 flex flex-col justify-between overflow-hidden">
+                <div class="theme-card rounded-2xl p-3 shadow-sm border shrink-0 flex flex-col justify-between overflow-hidden relative group">
+                    <!-- Hover Font Control (Bottom Left) -->
+                    <div class="absolute bottom-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-1 z-50">
+                        <button onclick="adjustFontSize('officers', 0.05)" class="bg-black/60 hover:bg-emerald-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-plus"></i></button>
+                        <button onclick="adjustFontSize('officers', -0.05)" class="bg-black/60 hover:bg-rose-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-minus"></i></button>
+                    </div>
                     <div class="flex items-center justify-between border-b border-slate-100/20 pb-1.5 gap-1 overflow-hidden">
                         <span class="font-extrabold theme-text-primary text-[10px] sm:text-[11px] tracking-wider uppercase truncate">PETUGAS SHOLAT HARI INI</span>
                         <span id="display-iqomah-timer-badge" class="bg-amber-100 border border-amber-300 text-amber-900 text-[10px] sm:text-[11px] font-extrabold px-2 py-0.5 rounded-full whitespace-nowrap shrink-0">
@@ -421,7 +435,7 @@
                         </span>
                     </div>
                     
-                    <div class="space-y-1 py-1.5 text-xs">
+                    <div id="officers-list-container" class="space-y-1 py-1.5 text-xs">
                         <div class="flex items-center justify-between">
                             <span class="theme-text-sub font-semibold">Imam</span>
                             <span id="disp-officer-imam" class="font-extrabold theme-text-primary">Ust. Zulkarnain</span>
@@ -441,7 +455,12 @@
                 </div>
 
                 <!-- CARD 4: MOTIVASI ISLAMI (API + LOCAL FALLBACK) -->
-                <div class="theme-card rounded-2xl p-3 shadow-sm border flex-1 min-h-0 flex flex-col justify-center items-center text-center overflow-hidden relative">
+                <div class="theme-card rounded-2xl p-3 shadow-sm border flex-1 min-h-0 flex flex-col justify-center items-center text-center overflow-hidden relative group">
+                    <!-- Hover Font Control (Bottom Left) -->
+                    <div class="absolute bottom-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-1 z-50">
+                        <button onclick="adjustFontSize('quote', 0.05)" class="bg-black/60 hover:bg-emerald-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-plus"></i></button>
+                        <button onclick="adjustFontSize('quote', -0.05)" class="bg-black/60 hover:bg-rose-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-minus"></i></button>
+                    </div>
                     <i class="fa-solid fa-quote-left text-3xl theme-text-sub opacity-10 absolute top-1 left-2"></i>
                     <i class="fa-solid fa-quote-right text-3xl theme-text-sub opacity-10 absolute bottom-1 right-2"></i>
                     <p id="disp-quote-text" class="text-[11px] sm:text-xs font-semibold theme-text-primary italic z-10 overflow-hidden line-clamp-3">"Memuat kutipan..."</p>
@@ -527,17 +546,21 @@
         </div>
 
         <!-- FOOTER RUNNING TEXT -->
-        <div id="footer-running" class="h-9 shrink-0 theme-header-bg rounded-xl border border-black/10 flex items-center overflow-hidden shadow-sm">
+        <div id="footer-running" class="shrink-0 min-h-[2.25rem] theme-header-bg rounded-xl border border-black/10 flex items-stretch overflow-hidden shadow-sm relative group">
+            <div class="absolute bottom-1 right-1/4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-1 z-50">
+                <button onclick="adjustFontSize('runningText', 0.05)" class="bg-black/60 hover:bg-emerald-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-plus"></i></button>
+                <button onclick="adjustFontSize('runningText', -0.05)" class="bg-black/60 hover:bg-rose-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-minus"></i></button>
+            </div>
             <div class="bg-black/35 text-amber-400 font-extrabold text-xs px-3 py-2 uppercase tracking-wider shrink-0 flex items-center gap-2">
                 <i class="fa-solid fa-bullhorn text-amber-400"></i>
-                <span>INFO MASJID</span>
+                <span id="disp-running-label">INFO MASJID</span>
             </div>
-            <div class="flex-1 overflow-hidden">
-                <marquee id="disp-running-text" class="text-xs font-bold tracking-wide text-white drop-shadow-md opacity-100">
+            <div class="flex-1 overflow-hidden flex items-center">
+                <marquee id="disp-running-text" class="text-xs font-bold tracking-wide text-white drop-shadow-md opacity-100 py-1.5 leading-normal">
                     LURUSKAN DAN RAPATKAN SHAF SEBELUM SHOLAT DIMULAI. MOHON MENONAKTIFKAN HP SAAT BERADA DI DALAM MASJID.
                 </marquee>
             </div>
-            <div class="hidden sm:flex bg-black/25 text-slate-100 text-[10px] font-bold px-2.5 py-2 shrink-0 items-center border-l border-white/15">
+            <div id="disp-dev-label" class="hidden sm:flex bg-black/25 text-slate-100 text-[10px] font-bold px-3 py-2 shrink-0 items-center border-l border-white/15">
                 Dev: Saprudin, S.Ag.
             </div>
         </div>
@@ -760,6 +783,16 @@
                 <!-- TAB 3: RUNNING TEXT & SLIDESHOW -->
                 <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
                     <h4 class="font-bold text-emerald-400 text-sm border-b border-slate-800 pb-2">3. Running Text & Slideshow</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-slate-400 mb-1">Label Info (Kiri)</label>
+                            <input type="text" id="cfg-running-label" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">Label Developer (Kanan)</label>
+                            <input type="text" id="cfg-dev-label" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500">
+                        </div>
+                    </div>
                     <div>
                         <label class="block text-slate-400 mb-1">Teks Berjalan (Running Text)</label>
                         <textarea id="cfg-running-text" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500"></textarea>
@@ -803,6 +836,30 @@
                     </div>
                 </div>
 
+                <!-- TAB 5: PENGATURAN UKURAN TEKS -->
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+                    <h4 class="font-bold text-sky-400 text-sm border-b border-slate-800 pb-2">5. Pengaturan Ukuran Teks (Font Size)</h4>
+                    <p class="text-slate-400 text-[11px] mb-2">Atur ukuran teks dalam satuan "rem" (1 rem = 16px). Naikkan angkanya jika di TV terlihat kekecilan.</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div>
+                            <label class="block text-slate-400 text-xs mb-1">Jam Digital</label>
+                            <input type="number" step="0.1" id="cfg-font-clock" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-sky-500">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 text-xs mb-1">Nama Masjid</label>
+                            <input type="number" step="0.1" id="cfg-font-mosque" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-sky-500">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 text-xs mb-1">Waktu Sholat</label>
+                            <input type="number" step="0.1" id="cfg-font-prayer" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-sky-500">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 text-xs mb-1">Teks Berjalan</label>
+                            <input type="number" step="0.1" id="cfg-font-running" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-sky-500">
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Modal Footer -->
@@ -821,7 +878,7 @@
     <!-- JAVASCRIPT LOGIC (MODUL ES DENGAN YOUTUBE, CUSTOM SLIDE DURATION & LAYOUT FIX) -->
     <script type="module">
         // MASTER SWITCH IS_PREVIEW (DIUBAH KE FALSE UNTUK PRODUKSI FIREBASE)
-        const is_preview = false;
+        const is_preview = true;
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -848,11 +905,14 @@
             mosqueName: "MASJID WAKTIHA",
             mosqueAddress: "BEKU WANGEN POLANHARJO KLATEN",
             logoUrl: "",
-            cityId: "1301",
+            cityId: "1301", // Default Klaten / Solo
             audioUrl: "https://actions.google.com/sounds/v1/alarms/beep_short.ogg",
             prePrayerMinutes: 15,
             slideDuration: 7,
+            runningLabel: "INFO MASJID",
+            devLabel: "Dev: Saprudin, S.Ag.",
             iqomahTimes: { subuh: 10, dzuhur: 10, ashar: 10, maghrib: 10, isya: 10 },
+            fonts: { clock: 3.75, mosqueName: 1.5, prayerTime: 1.5, runningText: 0.75, date: 1, officers: 0.75, quote: 0.75, quoteArabic: 1.5 },
             runningText: "LURUSKAN DAN RAPATKAN SHAF SEBELUM SHOLAT DIMULAI. MOHON MENONAKTIFKAN HP SAAT BERADA DI DALAM MASJID.",
             slides: [
                 "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1200&q=80",
@@ -932,8 +992,10 @@
                 textEl.innerText = `"${randomQuote.text}"`;
                 if (/[\u0600-\u06FF]/.test(randomQuote.text)) {
                     textEl.classList.add('font-arabic');
+                    textEl.style.fontSize = `${appConfig.fonts?.quoteArabic || 1.5}rem`;
                 } else {
                     textEl.classList.remove('font-arabic');
+                    textEl.style.fontSize = `${appConfig.fonts?.quote || 0.75}rem`;
                 }
                 authorEl.innerText = randomQuote.author;
             }
@@ -946,8 +1008,10 @@
                             textEl.innerText = `"${data.data.doa}"`;
                             if (/[\u0600-\u06FF]/.test(data.data.doa)) {
                                 textEl.classList.add('font-arabic');
+                                textEl.style.fontSize = `${appConfig.fonts?.quoteArabic || 1.5}rem`;
                             } else {
                                 textEl.classList.remove('font-arabic');
+                                textEl.style.fontSize = `${appConfig.fonts?.quote || 0.75}rem`;
                             }
                             authorEl.innerText = data.data.judul;
                         }
@@ -1075,6 +1139,18 @@
             const cfgSlideDur = document.getElementById("cfg-slide-duration");
             if (cfgSlideDur) cfgSlideDur.value = appConfig.slideDuration || 7;
 
+            const dispRunLabel = document.getElementById("disp-running-label");
+            if (dispRunLabel) dispRunLabel.innerText = appConfig.runningLabel || "INFO MASJID";
+
+            const dispDevLabel = document.getElementById("disp-dev-label");
+            if (dispDevLabel) dispDevLabel.innerText = appConfig.devLabel || "Dev: Saprudin, S.Ag.";
+
+            const cfgRunLabel = document.getElementById("cfg-running-label");
+            if (cfgRunLabel) cfgRunLabel.value = appConfig.runningLabel || "INFO MASJID";
+
+            const cfgDevLabel = document.getElementById("cfg-dev-label");
+            if (cfgDevLabel) cfgDevLabel.value = appConfig.devLabel || "Dev: Saprudin, S.Ag.";
+
             // Update UI Switch Harian
             const cbDaily = document.getElementById("cfg-daily-template-enable");
             if (cbDaily) {
@@ -1105,6 +1181,56 @@
             if (iqMaghrib) iqMaghrib.value = appConfig.iqomahTimes.maghrib;
             const iqIsya = document.getElementById("cfg-iq-isya");
             if (iqIsya) iqIsya.value = appConfig.iqomahTimes.isya;
+
+            // Load Font Sizes to Inputs
+            const fClock = document.getElementById("cfg-font-clock");
+            if (fClock) fClock.value = appConfig.fonts?.clock || 3.75;
+            
+            const fMosque = document.getElementById("cfg-font-mosque");
+            if (fMosque) fMosque.value = appConfig.fonts?.mosqueName || 1.5;
+
+            const fPrayer = document.getElementById("cfg-font-prayer");
+            if (fPrayer) fPrayer.value = appConfig.fonts?.prayerTime || 1.5;
+
+            const fRunning = document.getElementById("cfg-font-running");
+            if (fRunning) fRunning.value = appConfig.fonts?.runningText || 0.75;
+
+            // --- APLIKASI FONT DINAMIS KE KARTU-KARTU ---
+            const dispMasehi = document.getElementById("display-date-masehi");
+            if (dispMasehi) dispMasehi.style.fontSize = `${appConfig.fonts?.date || 1}rem`;
+            
+            const dispHijri = document.getElementById("display-date-hijri");
+            if (dispHijri) dispHijri.style.fontSize = `${(appConfig.fonts?.date || 1) * 0.75}rem`;
+
+            const dispOfficers = document.getElementById("officers-list-container");
+            if (dispOfficers) dispOfficers.style.fontSize = `${appConfig.fonts?.officers || 0.75}rem`;
+
+            const dispQuoteTxt = document.getElementById("disp-quote-text");
+            if (dispQuoteTxt) {
+                if (dispQuoteTxt.classList.contains('font-arabic')) {
+                    dispQuoteTxt.style.fontSize = `${appConfig.fonts?.quoteArabic || 1.5}rem`;
+                } else {
+                    dispQuoteTxt.style.fontSize = `${appConfig.fonts?.quote || 0.75}rem`;
+                }
+            }
+            
+            const dispQuoteAuth = document.getElementById("disp-quote-author");
+            if (dispQuoteAuth) dispQuoteAuth.style.fontSize = `${(appConfig.fonts?.quote || 0.75) * 0.8}rem`;
+
+            // Apply Fonts to DOM Elements
+            const dispClock = document.getElementById("display-clock");
+            if (dispClock) dispClock.style.fontSize = `${appConfig.fonts?.clock || 3.75}rem`;
+
+            const dispMosque = document.getElementById("disp-mosque-name");
+            if (dispMosque) dispMosque.style.fontSize = `${appConfig.fonts?.mosqueName || 1.5}rem`;
+
+            const dispRunning = document.getElementById("disp-running-text");
+            if (dispRunning) dispRunning.style.fontSize = `${appConfig.fonts?.runningText || 0.75}rem`;
+
+            ["imsak", "subuh", "syuruq", "dzuhur", "ashar", "maghrib", "isya"].forEach(p => {
+                const el = document.getElementById(`time-${p}`);
+                if (el) el.style.fontSize = `${appConfig.fonts?.prayerTime || 1.5}rem`;
+            });
         };
 
         window.toggleDailyTplUI = function(show) {
@@ -1284,6 +1410,46 @@
                 toast.classList.remove("opacity-100");
                 toast.classList.add("opacity-0", "pointer-events-none");
             }, 3000);
+        };
+
+        // FUNGSI UBAH UKURAN FONT LANGSUNG DARI LAYAR
+        window.adjustFontSize = function(key, delta) {
+            if (!appConfig.fonts) appConfig.fonts = {};
+            
+            // MAGIC TRICK: Deteksi kalau lagi nampilin teks Arab, alihkan "kunci" ke quoteArabic
+            if (key === 'quote') {
+                const quoteEl = document.getElementById('disp-quote-text');
+                if (quoteEl && quoteEl.classList.contains('font-arabic')) {
+                    key = 'quoteArabic';
+                }
+            }
+
+            let current = appConfig.fonts[key];
+            
+            if (current === undefined) {
+                if (key === 'date') current = 1;
+                else if (key === 'clock') current = 3.75;
+                else if (key === 'officers') current = 0.75;
+                else if (key === 'quote') current = 0.75;
+                else if (key === 'quoteArabic') current = 1.5;
+                else current = 1;
+            }
+            
+            // Limit pengecilan agar tidak hilang (min 0.4rem)
+            current = Math.max(0.4, current + delta);
+            appConfig.fonts[key] = current;
+            
+            // Simpan langsung ke localstorage & update UI
+            localStorage.setItem("masjid_tv_config", JSON.stringify(appConfig));
+            applyConfigToUI();
+            
+            // Simpan ke Firestore jika mode produksi
+            if (!is_preview && db) {
+                setDoc(doc(db, "artifacts", "masjid_tv_app", "public", "data"), { config: appConfig }, { merge: true })
+                    .catch(err => console.log("Gagal simpan font ke cloud", err));
+            }
+            
+            showToast(`Ukuran teks diubah: ${current.toFixed(2)}rem`);
         };
 
         window.testAudioAlarm = function() {
@@ -1495,6 +1661,8 @@
             appConfig.prePrayerMinutes = parseInt(getVal("cfg-pre-prayer-mins")) || 15;
             appConfig.slideDuration = parseInt(getVal("cfg-slide-duration")) || 7;
             appConfig.runningText = getVal("cfg-running-text");
+            appConfig.runningLabel = getVal("cfg-running-label") || "INFO MASJID";
+            appConfig.devLabel = getVal("cfg-dev-label") || "Dev: Saprudin, S.Ag.";
 
             const slidesRaw = getVal("cfg-slides-url");
             appConfig.slides = slidesRaw.split(",").map(s => s.trim()).filter(s => s.length > 0);
@@ -1519,6 +1687,12 @@
                 maghrib: parseInt(getVal("cfg-iq-maghrib")) || 10,
                 isya: parseInt(getVal("cfg-iq-isya")) || 10,
             };
+
+            if (!appConfig.fonts) appConfig.fonts = {};
+            appConfig.fonts.clock = parseFloat(getVal("cfg-font-clock")) || 3.75;
+            appConfig.fonts.mosqueName = parseFloat(getVal("cfg-font-mosque")) || 1.5;
+            appConfig.fonts.prayerTime = parseFloat(getVal("cfg-font-prayer")) || 1.5;
+            appConfig.fonts.runningText = parseFloat(getVal("cfg-font-running")) || 0.75;
 
             localStorage.setItem("masjid_tv_config", JSON.stringify(appConfig));
 
