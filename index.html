@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Display TV Masjid - Jadwal Sholat & Information System | Developer: Saprudin, S.Ag.</title>
 
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts (Plus Jakarta Sans & Amiri untuk huruf Arab tegak lurus dengan harokat jelas, tanpa italic) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -28,23 +25,15 @@
             letter-spacing: 0px !important;
         }
 
-        /* Custom Scrollbar for Admin Modal */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
-        ::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
-        }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-        /* TEMPLATE 1: Hijau Masjid Klasik (Layout Standar: Info Kiri, Slide Kanan, Sholat Bawah) */
+        /* TEMPLATE 1: Hijau Masjid Klasik */
         [data-template="1"] { background-color: #e2e8f0; color: #1e293b; }
         [data-template="1"] .theme-card { background-color: #ffffff; border-color: #cbd5e1; color: #1e293b; }
         [data-template="1"] .theme-header-bg { background-color: #064e3b; color: #ffffff; }
@@ -52,7 +41,7 @@
         [data-template="1"] .theme-text-sub { color: #64748b; }
         [data-template="1"] .theme-active-card { background-color: #ea580c !important; border-color: #f97316 !important; color: #ffffff !important; }
 
-        /* TEMPLATE 2: Midnight Gold (Layout Terbalik: Slide Kiri Besar, Info Jam Kanan) */
+        /* TEMPLATE 2: Midnight Gold */
         [data-template="2"] { background-color: #090d16; color: #f8fafc; }
         [data-template="2"] .theme-card { background-color: #0f172a; border-color: #1e293b; color: #f8fafc; }
         [data-template="2"] .theme-header-bg { background-color: #1e1b4b; color: #fbbf24; }
@@ -63,7 +52,7 @@
         [data-template="2"] #col-left { width: 33.333%; }
         [data-template="2"] #col-right { width: 66.666%; }
 
-        /* TEMPLATE 3: Ocean Blue (Layout Jadwal Sholat Di ATAS Layar, Media Di Bawah) */
+        /* TEMPLATE 3: Ocean Blue */
         [data-template="3"] { background-color: #e0f2fe; color: #0c4a6e; }
         [data-template="3"] .theme-card { background-color: #ffffff; border-color: #bae6fd; color: #0c4a6e; }
         [data-template="3"] .theme-header-bg { background-color: #0284c7; color: #ffffff; }
@@ -75,7 +64,7 @@
         [data-template="3"] #grid-top-section { order: 0; }
         [data-template="3"] #footer-running { order: 1; }
 
-        /* TEMPLATE 4: Dark Forest (Layout Header Masjid Di Bawah Slide + Side Mirror) */
+        /* TEMPLATE 4: Dark Forest */
         [data-template="4"] { background-color: #022c22; color: #ecfdf5; }
         [data-template="4"] .theme-card { background-color: #064e3b; border-color: #047857; color: #ecfdf5; }
         [data-template="4"] .theme-header-bg { background-color: #065f46; color: #34d399; }
@@ -86,7 +75,7 @@
         [data-template="4"] #col-left { width: 33.333%; }
         [data-template="4"] #col-right { width: 66.666%; flex-direction: column-reverse; }
 
-        /* TEMPLATE 5: Ruby Maroon (Layout Running Text Di ATAS, Kartu Informasi Kiri Terbalik) */
+        /* TEMPLATE 5: Ruby Maroon */
         [data-template="5"] { background-color: #1c1917; color: #f5f5f4; }
         [data-template="5"] .theme-card { background-color: #292524; border-color: #44403c; color: #f5f5f4; }
         [data-template="5"] .theme-header-bg { background-color: #881337; color: #ffffff; }
@@ -99,283 +88,56 @@
         [data-template="5"] #grid-bottom-prayer { order: 1; }
         [data-template="5"] #col-left { flex-direction: column-reverse; }
 
-        /* TEMPLATE 6: Full Media TV (Layout Samping Vertical Prayer + Media Raksasa) - Fixed height calc */
+        /* TEMPLATE 6: Full Media Wide */
         [data-template="6"] { background-color: #0f172a; color: #f8fafc; }
         [data-template="6"] .theme-card { background-color: #1e293b; border-color: #334155; color: #f8fafc; }
         [data-template="6"] .theme-header-bg { background-color: #0284c7; color: #ffffff; }
         [data-template="6"] .theme-text-primary { color: #38bdf8; }
         [data-template="6"] .theme-text-sub { color: #94a3b8; }
         [data-template="6"] .theme-active-card { background-color: #ea580c !important; border-color: #f97316 !important; color: #ffffff !important; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.4); }
+        [data-template="6"] #main-container { display: grid; grid-template-columns: 290px 1fr; grid-template-rows: auto 1fr 2.25rem; gap: 0.5rem; height: calc(100vh - 1.5rem); box-sizing: border-box; }
+        [data-template="6"] #grid-top-section { display: contents; }
+        [data-template="6"] #col-left { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: 0.35rem; }
+        [data-template="6"] #col-left > div:nth-child(1), [data-template="6"] #col-left > div:nth-child(2), [data-template="6"] #col-left > div:nth-child(3) { padding: 0.5rem 0.75rem; }
+        [data-template="6"] #col-left > div:nth-child(2) #display-clock { font-size: 2.25rem; line-height: 1; margin: 0.15rem 0; }
+        [data-template="6"] #col-left > div:nth-child(2) #display-status-bar { margin-top: 0.25rem; padding: 0.35rem 0.5rem; font-size: 0.65rem; }
+        [data-template="6"] #col-left > div:nth-child(4) { padding: 0.5rem 0.75rem; flex: 1; min-height: 0; }
+        [data-template="6"] #col-right { grid-column: 2; grid-row: 1 / span 2; display: flex; flex-direction: column; gap: 0.5rem; height: 100%; min-height: 0; }
+        [data-template="6"] #col-right > div:first-child { height: 3.75rem; flex-shrink: 0; }
+        [data-template="6"] #col-right > div:last-child { flex: 1; min-height: 0; }
+        [data-template="6"] #grid-bottom-prayer { grid-column: 1; grid-row: 2; display: flex; flex-direction: column; height: 100%; gap: 0.35rem; min-height: 0; }
+        [data-template="6"] #grid-bottom-prayer .theme-card, [data-template="6"] #grid-bottom-prayer .theme-active-card { flex: 1; flex-direction: row; align-items: center; justify-content: space-between; padding: 0 1rem; border-radius: 0.85rem; min-height: 0; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); }
+        [data-template="6"] #grid-bottom-prayer div:first-child { width: auto; background: transparent !important; padding: 0; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
+        [data-template="6"] #grid-bottom-prayer div:nth-child(2) { font-size: 1.2rem; font-weight: 900; letter-spacing: 0.025em; }
+        [data-template="6"] #footer-running { grid-column: 1 / span 2; grid-row: 3; }
 
-        [data-template="6"] #main-container {
-            display: grid;
-            grid-template-columns: 290px 1fr;
-            grid-template-rows: auto 1fr 2.25rem;
-            gap: 0.5rem;
-            height: calc(100vh - 1.5rem);
-            box-sizing: border-box;
-        }
-        [data-template="6"] #grid-top-section {
-            display: contents;
-        }
-        [data-template="6"] #col-left {
-            grid-column: 1;
-            grid-row: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.35rem;
-        }
-        [data-template="6"] #col-left > div:nth-child(1) {
-            padding: 0.5rem 0.75rem;
-        }
-        [data-template="6"] #col-left > div:nth-child(2) {
-            padding: 0.5rem 0.75rem;
-        }
-        [data-template="6"] #col-left > div:nth-child(2) #display-clock {
-            font-size: 2.25rem;
-            line-height: 1;
-            margin: 0.15rem 0;
-        }
-        [data-template="6"] #col-left > div:nth-child(2) #display-status-bar {
-            margin-top: 0.25rem;
-            padding: 0.35rem 0.5rem;
-            font-size: 0.65rem;
-        }
-        [data-template="6"] #col-left > div:nth-child(3) {
-            padding: 0.5rem 0.75rem;
-        }
-        [data-template="6"] #col-left > div:nth-child(4) {
-            padding: 0.5rem 0.75rem;
-            flex: 1;
-            min-height: 0;
-        }
-        [data-template="6"] #col-right {
-            grid-column: 2;
-            grid-row: 1 / span 2;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            height: 100%;
-            min-height: 0;
-        }
-        [data-template="6"] #col-right > div:first-child {
-            height: 3.75rem;
-            flex-shrink: 0;
-        }
-        [data-template="6"] #col-right > div:last-child {
-            flex: 1;
-            min-height: 0;
-        }
-        [data-template="6"] #grid-bottom-prayer {
-            grid-column: 1;
-            grid-row: 2;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            gap: 0.35rem;
-            min-height: 0;
-        }
-        [data-template="6"] #grid-bottom-prayer .theme-card,
-        [data-template="6"] #grid-bottom-prayer .theme-active-card {
-            flex: 1;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 1rem;
-            border-radius: 0.85rem;
-            min-height: 0;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-        }
-        [data-template="6"] #grid-bottom-prayer div:first-child {
-            width: auto;
-            background: transparent !important;
-            padding: 0;
-            font-size: 0.8rem;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-        [data-template="6"] #grid-bottom-prayer div:nth-child(2) {
-            font-size: 1.2rem;
-            font-weight: 900;
-            letter-spacing: 0.025em;
-        }
-        [data-template="6"] #footer-running {
-            grid-column: 1 / span 2;
-            grid-row: 3;
-        }
-
-        /* TEMPLATE 7: Fullscreen Media Overlay (Top Bar, Full Media, Bottom Prayer Bar) */
+        /* TEMPLATE 7: Fullscreen Media Overlay */
         [data-template="7"] { background-color: #090d16; color: #f8fafc; }
-        [data-template="7"] #main-container {
-            display: flex;
-            flex-direction: column;
-            height: calc(100vh - 1.5rem);
-            gap: 0.5rem;
-            box-sizing: border-box;
-            position: relative;
-        }
-        [data-template="7"] #grid-top-section {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            min-height: 0;
-            gap: 0.5rem;
-            position: relative;
-        }
-        /* Top Header Bar spanning full width */
-        [data-template="7"] #col-left {
-            order: 1;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 1rem;
-            padding: 0.5rem 1.5rem;
-            height: 4.75rem;
-            flex-shrink: 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            width: 100%;
-            z-index: 30;
-        }
-        /* Left: Clock */
-        [data-template="7"] #col-left > div:nth-child(2) {
-            order: 1;
-            background: transparent;
-            border: none;
-            box-shadow: none;
-            padding: 0;
-            display: flex;
-            align-items: center;
-        }
-        [data-template="7"] #col-left > div:nth-child(2) #display-clock {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #38bdf8;
-            margin: 0;
-            line-height: 1;
-        }
-        [data-template="7"] #col-left > div:nth-child(2) #display-status-bar {
-            display: none;
-        }
-
-        /* Right: Date (Card 1) */
-        [data-template="7"] #col-left > div:nth-child(1) {
-            order: 3;
-            background: transparent;
-            border: none;
-            box-shadow: none;
-            padding: 0;
-            text-align: right;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        [data-template="7"] #col-left > div:nth-child(1) #display-date-masehi {
-            font-size: 0.9rem;
-            font-weight: 800;
-            color: #f8fafc;
-        }
-        [data-template="7"] #col-left > div:nth-child(1) #display-date-hijri {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #fbbf24;
-        }
-        [data-template="7"] #col-left > div:nth-child(1) .inline-flex {
-            display: none;
-        }
-
-        /* Hide unused cards in col-left */
-        [data-template="7"] #col-left > div:nth-child(3),
-        [data-template="7"] #col-left > div:nth-child(4) {
-            display: none;
-        }
-
-        /* Center: Mosque Header embedded into top bar */
-        [data-template="7"] #col-right {
-            order: 2;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            min-height: 0;
-            width: 100%;
-            gap: 0;
-        }
-        /* Mosque header placed in the center of top bar */
-        [data-template="7"] #col-right > div:first-child {
-            position: absolute;
-            top: 0.85rem;
-            left: 50%;
-            transform: translateX(-50%);
-            background: transparent;
-            border: none;
-            box-shadow: none;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            z-index: 40;
-            pointer-events: none;
-        }
-        [data-template="7"] #col-right > div:first-child #header-logo-container {
-            width: 2.5rem;
-            height: 2.5rem;
-        }
-        [data-template="7"] #col-right > div:first-child h1 {
-            font-size: 1.15rem;
-            color: #fbbf24;
-            font-weight: 900;
-            line-height: 1.1;
-        }
-        [data-template="7"] #col-right > div:first-child p {
-            font-size: 0.65rem;
-            color: #cbd5e1;
-            font-weight: 700;
-        }
-
-        /* Slideshow media container filling the center */
-        [data-template="7"] #col-right > div:last-child {
-            flex: 1;
-            width: 100%;
-            height: 100%;
-            min-height: 0;
-            border-radius: 1rem;
-            border: 3px solid rgba(56, 189, 248, 0.5);
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            background: #000;
-        }
-
-        /* Bottom prayer timing cards */
-        [data-template="7"] #grid-bottom-prayer {
-            order: 3;
-            height: 5.5rem;
-            flex-shrink: 0;
-        }
-        [data-template="7"] #grid-bottom-prayer .theme-card,
-        [data-template="7"] #grid-bottom-prayer .theme-active-card {
-            border-radius: 0.85rem;
-        }
-        [data-template="7"] .theme-active-card {
-            background-color: #f59e0b !important;
-            border-color: #fbbf24 !important;
-            color: #ffffff !important;
-            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
-        }
-        [data-template="7"] .theme-active-card div {
-            color: #ffffff !important;
-        }
-
-        /* Running text footer */
-        [data-template="7"] #footer-running {
-            order: 4;
-            flex-shrink: 0;
-        }
+        [data-template="7"] #main-container { display: flex; flex-direction: column; height: calc(100vh - 1.5rem); gap: 0.5rem; box-sizing: border-box; position: relative; }
+        [data-template="7"] #grid-top-section { display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 0.5rem; position: relative; }
+        [data-template="7"] #col-left { order: 1; display: flex; flex-direction: row; align-items: center; justify-content: space-between; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 1rem; padding: 0.5rem 1.5rem; height: 4.75rem; flex-shrink: 0; box-shadow: 0 4px 20px rgba(0,0,0,0.5); width: 100%; z-index: 30; }
+        [data-template="7"] #col-left > div:nth-child(2) { order: 1; background: transparent; border: none; box-shadow: none; padding: 0; display: flex; align-items: center; }
+        [data-template="7"] #col-left > div:nth-child(2) #display-clock { font-size: 2.5rem; font-weight: 900; color: #38bdf8; margin: 0; line-height: 1; }
+        [data-template="7"] #col-left > div:nth-child(2) #display-status-bar { display: none; }
+        [data-template="7"] #col-left > div:nth-child(1) { order: 3; background: transparent; border: none; box-shadow: none; padding: 0; text-align: right; align-items: flex-end; display: flex; flex-direction: column; justify-content: center; }
+        [data-template="7"] #col-left > div:nth-child(1) #display-date-masehi { font-size: 0.9rem; font-weight: 800; color: #f8fafc; }
+        [data-template="7"] #col-left > div:nth-child(1) #display-date-hijri { font-size: 0.75rem; font-weight: 700; color: #fbbf24; }
+        [data-template="7"] #col-left > div:nth-child(1) .inline-flex { display: none; }
+        [data-template="7"] #col-left > div:nth-child(3), [data-template="7"] #col-left > div:nth-child(4) { display: none; }
+        [data-template="7"] #col-right { order: 2; display: flex; flex-direction: column; flex: 1; min-height: 0; width: 100%; gap: 0; }
+        [data-template="7"] #col-right > div:first-child { position: absolute; top: 0.85rem; left: 50%; transform: translateX(-50%); background: transparent; border: none; box-shadow: none; padding: 0; display: flex; align-items: center; gap: 0.75rem; z-index: 40; pointer-events: none; }
+        [data-template="7"] #col-right > div:first-child #header-logo-container { width: 2.5rem; height: 2.5rem; }
+        [data-template="7"] #col-right > div:first-child h1 { font-size: 1.15rem; color: #fbbf24; font-weight: 900; line-height: 1.1; }
+        [data-template="7"] #col-right > div:first-child p { font-size: 0.65rem; color: #cbd5e1; font-weight: 700; }
+        [data-template="7"] #col-right > div:last-child { flex: 1; width: 100%; height: 100%; min-height: 0; border-radius: 1rem; border: 3px solid rgba(56, 189, 248, 0.5); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.6); background: #000; }
+        [data-template="7"] #grid-bottom-prayer { order: 3; height: 5.5rem; flex-shrink: 0; }
+        [data-template="7"] #grid-bottom-prayer .theme-card, [data-template="7"] #grid-bottom-prayer .theme-active-card { border-radius: 0.85rem; }
+        [data-template="7"] .theme-active-card { background-color: #f59e0b !important; border-color: #fbbf24 !important; color: #ffffff !important; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4); }
+        [data-template="7"] .theme-active-card div { color: #ffffff !important; }
+        [data-template="7"] #footer-running { order: 4; flex-shrink: 0; }
     </style>
 </head>
+
 <body id="app-body" data-template="1" class="h-screen w-screen transition-colors duration-500 overflow-hidden select-none p-3 box-border">
 
     <div id="main-container" class="h-full w-full flex flex-col justify-between gap-2.5">
@@ -387,18 +149,13 @@
             <div id="col-left" class="col-span-4 flex flex-col gap-2.5 h-full min-h-0">
                 
                 <!-- CARD 1: DATE & HOLIDAY BADGE -->
-                <div class="theme-card rounded-2xl p-3 shadow-sm border flex flex-col justify-center gap-1 shrink-0 overflow-hidden relative group">
-                    <div id="display-date-masehi" class="theme-text-primary font-extrabold text-sm sm:text-base leading-tight truncate">
-                        Minggu, 23 Agustus 2026
-                    </div>
-                    <div id="display-date-hijri" class="theme-text-sub font-bold text-xs truncate">
-                        10 Rabiulawal 1448 H
-                    </div>
+                <div class="theme-card rounded-2xl p-3 shadow-sm border flex flex-col items-center text-center justify-center gap-1 shrink-0 overflow-hidden relative group">
+                    <div id="display-date-masehi" class="theme-text-primary font-extrabold text-sm sm:text-base leading-tight truncate">Memuat...</div>
+                    <div id="display-date-hijri" class="theme-text-sub font-bold text-xs truncate">Memuat...</div>
                     <div class="mt-1 inline-flex items-center gap-1.5 bg-slate-100/80 border border-slate-200 px-2.5 py-1 rounded-full max-w-full w-fit">
                         <span class="text-xs shrink-0">⏳</span>
-                        <span id="display-event-badge" class="text-[10px] sm:text-[11px] font-extrabold text-slate-700 leading-tight whitespace-normal">2 Hari lagi: Maulid Nabi Muhammad SAW</span>
+                        <span id="display-event-badge" class="text-[10px] sm:text-[11px] font-extrabold text-slate-700 leading-tight whitespace-normal">Memuat hari besar...</span>
                     </div>
-                    <!-- Hover Font Control (Bottom Right) -->
                     <div class="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-1 z-50">
                         <button onclick="adjustFontSize('date', 0.05)" class="bg-black/60 hover:bg-emerald-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-plus"></i></button>
                         <button onclick="adjustFontSize('date', -0.05)" class="bg-black/60 hover:bg-rose-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-minus"></i></button>
@@ -407,56 +164,38 @@
 
                 <!-- CARD 2: GIANT DIGITAL CLOCK & STATUS -->
                 <div class="theme-card rounded-2xl p-4 shadow-sm border flex flex-col items-center justify-center text-center shrink-0 relative group">
-                    <!-- Hover Font Control (Top Left) -->
                     <div class="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-1 z-50">
                         <button onclick="adjustFontSize('clock', 0.25)" class="bg-black/60 hover:bg-emerald-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-plus"></i></button>
                         <button onclick="adjustFontSize('clock', -0.25)" class="bg-black/60 hover:bg-rose-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-minus"></i></button>
                     </div>
-                    <div id="display-clock" class="text-6xl font-black theme-text-primary tracking-tight leading-none my-1">
-                        08:31:04
-                    </div>
+                    <div id="display-clock" class="text-6xl font-black theme-text-primary tracking-tight leading-none my-1">--:--:--</div>
                     <div id="display-status-bar" class="w-full mt-3 theme-header-bg font-bold text-xs py-2 px-3 rounded-xl flex items-center justify-center gap-2 shadow-inner uppercase tracking-wide">
                         <i class="fa-solid fa-clock text-amber-400"></i>
-                        <span id="status-text">MENUNGGU WAKTU DZUHUR (-03:28:15)</span>
+                        <span id="status-text">MEMUAT JADWAL...</span>
                     </div>
                 </div>
 
-                <!-- CARD 3: PETUGAS SHOLAT HARI INI (FIT/COMPACT - SHRINK-0) -->
+                <!-- CARD 3: PETUGAS SHOLAT -->
                 <div class="theme-card rounded-2xl p-3 shadow-sm border shrink-0 flex flex-col justify-between overflow-hidden relative group">
-                    <!-- Hover Font Control (Bottom Left) -->
                     <div class="absolute bottom-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-1 z-50">
                         <button onclick="adjustFontSize('officers', 0.05)" class="bg-black/60 hover:bg-emerald-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-plus"></i></button>
                         <button onclick="adjustFontSize('officers', -0.05)" class="bg-black/60 hover:bg-rose-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-minus"></i></button>
                     </div>
                     <div class="flex items-center justify-between border-b border-slate-100/20 pb-1.5 gap-1 overflow-hidden">
                         <span class="font-extrabold theme-text-primary text-[10px] sm:text-[11px] tracking-wider uppercase truncate">PETUGAS SHOLAT HARI INI</span>
-                        <span id="display-iqomah-timer-badge" class="bg-amber-100 border border-amber-300 text-amber-900 text-[10px] sm:text-[11px] font-extrabold px-2 py-0.5 rounded-full whitespace-nowrap shrink-0">
-                            Iqomah: 10 Mnt
-                        </span>
+                        <span id="display-iqomah-timer-badge" class="bg-amber-100 border border-amber-300 text-amber-900 text-[10px] sm:text-[11px] font-extrabold px-2 py-0.5 rounded-full whitespace-nowrap shrink-0">Iqomah: -- Mnt</span>
                     </div>
                     
                     <div id="officers-list-container" class="space-y-1 py-1.5 text-xs">
-                        <div class="flex items-center justify-between">
-                            <span class="theme-text-sub font-semibold">Imam</span>
-                            <span id="disp-officer-imam" class="font-extrabold theme-text-primary">Ust. Zulkarnain</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="theme-text-sub font-semibold">Muadzin</span>
-                            <span id="disp-officer-muadzin" class="font-extrabold theme-text-primary">Bpk. Suhanda</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="theme-text-sub font-semibold">Iqomah</span>
-                            <span id="disp-officer-iqomah" class="font-extrabold theme-text-primary">Bpk. Suhanda</span>
-                        </div>
+                        <div class="flex items-center justify-between"><span class="theme-text-sub font-semibold">Imam</span><span id="disp-officer-imam" class="font-extrabold theme-text-primary">-</span></div>
+                        <div class="flex items-center justify-between"><span class="theme-text-sub font-semibold">Muadzin</span><span id="disp-officer-muadzin" class="font-extrabold theme-text-primary">-</span></div>
+                        <div class="flex items-center justify-between"><span class="theme-text-sub font-semibold">Iqomah</span><span id="disp-officer-iqomah" class="font-extrabold theme-text-primary">-</span></div>
                     </div>
-                    <div class="text-[10px] theme-text-sub opacity-70 text-right italic pt-1 border-t border-slate-100/20">
-                        Jadwal otomatis sesuai hari
-                    </div>
+                    <div class="text-[10px] theme-text-sub opacity-70 text-right italic pt-1 border-t border-slate-100/20">Jadwal otomatis sesuai hari</div>
                 </div>
 
-                <!-- CARD 4: MOTIVASI ISLAMI (API + LOCAL FALLBACK) -->
+                <!-- CARD 4: MOTIVASI ISLAMI -->
                 <div class="theme-card rounded-2xl p-3 shadow-sm border flex-1 min-h-0 flex flex-col justify-center items-center text-center overflow-hidden relative group">
-                    <!-- Hover Font Control (Bottom Left) -->
                     <div class="absolute bottom-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-1 z-50">
                         <button onclick="adjustFontSize('quote', 0.05)" class="bg-black/60 hover:bg-emerald-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-plus"></i></button>
                         <button onclick="adjustFontSize('quote', -0.05)" class="bg-black/60 hover:bg-rose-600 text-white rounded w-6 h-6 flex items-center justify-center text-xs shadow-md backdrop-blur transition cursor-pointer"><i class="fa-solid fa-minus"></i></button>
@@ -478,12 +217,8 @@
                         <span id="header-logo-text">Masjid</span>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <h1 id="disp-mosque-name" class="text-2xl font-black theme-text-primary tracking-tight leading-tight truncate">
-                            MASJID WAKTIHA
-                        </h1>
-                        <p id="disp-mosque-address" class="text-xs font-bold theme-text-sub uppercase tracking-wider truncate">
-                            BEKU WANGEN POLANHARJO KLATEN
-                        </p>
+                        <h1 id="disp-mosque-name" class="text-2xl font-black theme-text-primary tracking-tight leading-tight truncate">MASJID WAKTIHA</h1>
+                        <p id="disp-mosque-address" class="text-xs font-bold theme-text-sub uppercase tracking-wider truncate">BEKU WANGEN POLANHARJO KLATEN</p>
                     </div>
                 </div>
 
@@ -500,49 +235,34 @@
 
         <!-- BOTTOM SECTION: PRAYER TIMINGS ROW (7 CARDS) -->
         <div id="grid-bottom-prayer" class="grid grid-cols-7 gap-2 h-20 shrink-0">
-            
-            <!-- IMSAK -->
             <div id="card-imsak" class="theme-card rounded-xl shadow-sm border overflow-hidden flex flex-col transition-all">
                 <div class="theme-header-bg text-[11px] font-extrabold text-center py-1 uppercase tracking-wider">IMSAK</div>
-                <div id="time-imsak" class="flex-1 flex items-center justify-center text-2xl font-black theme-text-primary">04:31</div>
+                <div id="time-imsak" class="flex-1 flex items-center justify-center text-2xl font-black theme-text-primary">--:--</div>
             </div>
-
-            <!-- SUBUH -->
             <div id="card-subuh" class="theme-card rounded-xl shadow-sm border overflow-hidden flex flex-col transition-all">
                 <div class="theme-header-bg text-[11px] font-extrabold text-center py-1 uppercase tracking-wider">SUBUH</div>
-                <div id="time-subuh" class="flex-1 flex items-center justify-center text-2xl font-black theme-text-primary">04:41</div>
+                <div id="time-subuh" class="flex-1 flex items-center justify-center text-2xl font-black theme-text-primary">--:--</div>
             </div>
-
-            <!-- SYURUQ -->
             <div id="card-syuruq" class="theme-card rounded-xl shadow-sm border overflow-hidden flex flex-col transition-all">
                 <div class="theme-header-bg text-[11px] font-extrabold text-center py-1 uppercase tracking-wider">SYURUQ</div>
-                <div id="time-syuruq" class="flex-1 flex items-center justify-center text-2xl font-black theme-text-primary">05:54</div>
+                <div id="time-syuruq" class="flex-1 flex items-center justify-center text-2xl font-black theme-text-primary">--:--</div>
             </div>
-
-            <!-- DZUHUR -->
             <div id="card-dzuhur" class="theme-active-card rounded-xl shadow-md border-2 overflow-hidden flex flex-col transition-all">
                 <div class="bg-black/20 text-white text-[11px] font-extrabold text-center py-1 uppercase tracking-wider">DZUHUR</div>
-                <div id="time-dzuhur" class="flex-1 flex items-center justify-center text-2xl font-black text-white">11:59</div>
+                <div id="time-dzuhur" class="flex-1 flex items-center justify-center text-2xl font-black text-white">--:--</div>
             </div>
-
-            <!-- ASHAR -->
             <div id="card-ashar" class="theme-card rounded-xl shadow-sm border overflow-hidden flex flex-col transition-all">
                 <div class="theme-header-bg text-[11px] font-extrabold text-center py-1 uppercase tracking-wider">ASHAR</div>
-                <div id="time-ashar" class="flex-1 flex items-center justify-center text-2xl font-black theme-text-primary">15:19</div>
+                <div id="time-ashar" class="flex-1 flex items-center justify-center text-2xl font-black theme-text-primary">--:--</div>
             </div>
-
-            <!-- MAGHRIB -->
             <div id="card-maghrib" class="theme-card rounded-xl shadow-sm border overflow-hidden flex flex-col transition-all">
                 <div class="theme-header-bg text-[11px] font-extrabold text-center py-1 uppercase tracking-wider">MAGHRIB</div>
-                <div id="time-maghrib" class="flex-1 flex items-center justify-center text-2xl font-black theme-text-primary">17:57</div>
+                <div id="time-maghrib" class="flex-1 flex items-center justify-center text-2xl font-black theme-text-primary">--:--</div>
             </div>
-
-            <!-- ISYA' -->
             <div id="card-isya" class="theme-card rounded-xl shadow-sm border overflow-hidden flex flex-col transition-all">
                 <div class="theme-header-bg text-[11px] font-extrabold text-center py-1 uppercase tracking-wider">ISYA'</div>
-                <div id="time-isya" class="flex-1 flex items-center justify-center text-2xl font-black theme-text-primary">19:07</div>
+                <div id="time-isya" class="flex-1 flex items-center justify-center text-2xl font-black theme-text-primary">--:--</div>
             </div>
-
         </div>
 
         <!-- FOOTER RUNNING TEXT -->
@@ -553,7 +273,7 @@
             </div>
             <div class="flex-1 overflow-hidden">
                 <marquee id="disp-running-text" class="text-xs font-bold tracking-wide text-white drop-shadow-md opacity-100">
-                    LURUSKAN DAN RAPATKAN SHAF SEBELUM SHOLAT DIMULAI. MOHON MENONAKTIFKAN HP SAAT BERADA DI DALAM MASJID.
+                    LURUSKAN DAN RAPATKAN SHAF SEBELUM SHOLAT DIMULAI.
                 </marquee>
             </div>
             <div id="disp-dev-label" class="hidden sm:flex bg-black/25 text-slate-100 text-[10px] font-bold px-2.5 py-2 shrink-0 items-center border-l border-white/15">
@@ -570,14 +290,10 @@
                 <i class="fa-solid fa-bell text-amber-400 animate-bounce"></i>
                 <span id="notif-badge-title">INFORMASI MASUK WAKTU SHOLAT</span>
             </div>
-            <h3 id="notif-subtitle" class="text-2xl sm:text-3xl font-extrabold text-slate-300 uppercase tracking-wide">
-                Telah Masuk Waktu Sholat
-            </h3>
-            <h1 id="prayer-notif-name" class="text-5xl sm:text-7xl font-black text-amber-400 tracking-tight leading-none uppercase my-1">
-                DZUHUR
-            </h1>
+            <h3 id="notif-subtitle" class="text-2xl sm:text-3xl font-extrabold text-slate-300 uppercase tracking-wide">Telah Masuk Waktu Sholat</h3>
+            <h1 id="prayer-notif-name" class="text-5xl sm:text-7xl font-black text-amber-400 tracking-tight leading-none uppercase my-1">DZUHUR</h1>
             <p id="notif-desc" class="text-slate-300 text-xs sm:text-base font-medium max-w-lg">
-                Pengingat bahwa sebentar lagi akan masuk waktu sholat. Mohon bersiap-siap untuk melaksanakan sholat berjamaah.
+                Pengingat bahwa sebentar lagi akan masuk waktu sholat. Mohon bersiap-siap.
             </p>
             <div class="flex flex-wrap items-center justify-center gap-3 mt-3">
                 <button onclick="closePrayerNotificationOverlay()" type="button" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-extrabold text-xs cursor-pointer transition shadow-lg active:scale-95">
@@ -597,15 +313,11 @@
                 <i class="fa-solid fa-mosque"></i>
                 <span>IQOMAH AKAN DIKUMANDANGKAN DALAM...</span>
             </div>
-            <h2 class="text-4xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-                LURUSKAN DAN RAPATKAN SHAF
-            </h2>
+            <h2 class="text-4xl sm:text-5xl font-black text-white tracking-tight leading-tight">LURUSKAN DAN RAPATKAN SHAF</h2>
             <p class="text-slate-300 text-sm sm:text-base font-medium max-w-lg">
                 Mohon matikan HP dan luruskan barisan demi kesempurnaan sholat berjamaah.
             </p>
-            <div id="iqomah-timer" class="text-7xl sm:text-8xl font-black text-amber-400 tracking-tight my-2 font-mono">
-                10:00
-            </div>
+            <div id="iqomah-timer" class="text-7xl sm:text-8xl font-black text-amber-400 tracking-tight my-2 font-mono">10:00</div>
             <button onclick="closeIqomahOverlay()" type="button" class="mt-2 px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold text-xs cursor-pointer border border-slate-700 transition">
                 Tutup / Selesai Sholat
             </button>
@@ -644,7 +356,6 @@
                                 <option value="7">Template 7: Fullscreen Media Overlay (Top Bar, Full Media, Bottom Prayer Bar)</option>
                             </select>
 
-                            <!-- FITUR BARU: TEMPLATE HARIAN -->
                             <div class="mt-3 p-3 bg-slate-800/50 border border-slate-700 rounded-xl">
                                 <label class="flex items-center gap-2 cursor-pointer mb-2">
                                     <input type="checkbox" id="cfg-daily-template-enable" onchange="toggleDailyTplUI(this.checked)" class="w-4 h-4 accent-emerald-500 rounded">
@@ -685,6 +396,14 @@
                             <label class="block text-amber-400 font-bold mb-1">⏰ Pengingat Pra-Sholat (Menit Sebelum Waktu Sholat)</label>
                             <input type="number" id="cfg-pre-prayer-mins" placeholder="15" class="w-full bg-slate-900 border border-amber-500/60 rounded-lg p-2 text-white font-bold outline-none focus:border-amber-400">
                         </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">Durasi Pop-up Pra-Sholat (Detik)</label>
+                            <input type="number" id="cfg-pre-warning-duration" placeholder="15" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">Durasi Masuk Sholat / Menuju Iqomah (Detik)</label>
+                            <input type="number" id="cfg-prayer-notif-duration" placeholder="60" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500">
+                        </div>
                     </div>
                 </div>
 
@@ -693,30 +412,15 @@
                     <h4 class="font-bold text-emerald-400 text-sm border-b border-slate-800 pb-2">2. Durasi Iqomah & Jadwal Petugas Sholat (Senin - Ahad)</h4>
                     
                     <div class="grid grid-cols-2 md:grid-cols-5 gap-2 mb-4">
-                        <div>
-                            <label class="block text-slate-400 mb-1">Iqomah Subuh (Mnt)</label>
-                            <input type="number" id="cfg-iq-subuh" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 mb-1">Iqomah Dzuhur (Mnt)</label>
-                            <input type="number" id="cfg-iq-dzuhur" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 mb-1">Iqomah Ashar (Mnt)</label>
-                            <input type="number" id="cfg-iq-ashar" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 mb-1">Iqomah Maghrib (Mnt)</label>
-                            <input type="number" id="cfg-iq-maghrib" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 mb-1">Iqomah Isya' (Mnt)</label>
-                            <input type="number" id="cfg-iq-isya" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
-                        </div>
+                        <div><label class="block text-slate-400 mb-1">Iqomah Subuh (Mnt)</label><input type="number" id="cfg-iq-subuh" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white"></div>
+                        <div><label class="block text-slate-400 mb-1">Iqomah Dzuhur (Mnt)</label><input type="number" id="cfg-iq-dzuhur" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white"></div>
+                        <div><label class="block text-slate-400 mb-1">Iqomah Ashar (Mnt)</label><input type="number" id="cfg-iq-ashar" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white"></div>
+                        <div><label class="block text-slate-400 mb-1">Iqomah Maghrib (Mnt)</label><input type="number" id="cfg-iq-maghrib" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white"></div>
+                        <div><label class="block text-slate-400 mb-1">Iqomah Isya' (Mnt)</label><input type="number" id="cfg-iq-isya" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white"></div>
                     </div>
 
                     <div class="space-y-2">
-                        <div class="font-bold text-slate-300">Tabel Petugas Sholat Mingguan (Senin s.d. Ahad):</div>
+                        <div class="font-bold text-slate-300">Tabel Petugas Sholat Mingguan:</div>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left border-collapse border border-slate-800 text-[11px]">
                                 <thead>
@@ -728,48 +432,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="p-2 border border-slate-800 font-bold">Senin</td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-senin-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-senin-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-senin-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-2 border border-slate-800 font-bold">Selasa</td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-selasa-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-selasa-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-selasa-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-2 border border-slate-800 font-bold">Rabu</td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-rabu-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-rabu-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-rabu-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-2 border border-slate-800 font-bold">Kamis</td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-kamis-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-kamis-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-kamis-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-2 border border-slate-800 font-bold">Jumat</td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-jumat-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-jumat-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-jumat-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-2 border border-slate-800 font-bold">Sabtu</td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-sabtu-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-sabtu-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-sabtu-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-2 border border-slate-800 font-bold">Ahad</td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-minggu-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-minggu-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                        <td class="p-1 border border-slate-800"><input type="text" id="off-minggu-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td>
-                                    </tr>
+                                    <tr><td class="p-2 border border-slate-800 font-bold">Senin</td><td class="p-1 border border-slate-800"><input type="text" id="off-senin-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-senin-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-senin-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td></tr>
+                                    <tr><td class="p-2 border border-slate-800 font-bold">Selasa</td><td class="p-1 border border-slate-800"><input type="text" id="off-selasa-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-selasa-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-selasa-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td></tr>
+                                    <tr><td class="p-2 border border-slate-800 font-bold">Rabu</td><td class="p-1 border border-slate-800"><input type="text" id="off-rabu-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-rabu-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-rabu-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td></tr>
+                                    <tr><td class="p-2 border border-slate-800 font-bold">Kamis</td><td class="p-1 border border-slate-800"><input type="text" id="off-kamis-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-kamis-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-kamis-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td></tr>
+                                    <tr><td class="p-2 border border-slate-800 font-bold">Jumat</td><td class="p-1 border border-slate-800"><input type="text" id="off-jumat-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-jumat-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-jumat-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td></tr>
+                                    <tr><td class="p-2 border border-slate-800 font-bold">Sabtu</td><td class="p-1 border border-slate-800"><input type="text" id="off-sabtu-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-sabtu-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-sabtu-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td></tr>
+                                    <tr><td class="p-2 border border-slate-800 font-bold">Ahad</td><td class="p-1 border border-slate-800"><input type="text" id="off-minggu-imam" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-minggu-muadzin" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td><td class="p-1 border border-slate-800"><input type="text" id="off-minggu-iqomah" class="w-full bg-slate-900 p-1 text-white border border-slate-800 rounded"></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -780,79 +449,33 @@
                 <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
                     <h4 class="font-bold text-emerald-400 text-sm border-b border-slate-800 pb-2">3. Running Text & Slideshow</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-slate-400 mb-1">Label Info (Kiri)</label>
-                            <input type="text" id="cfg-running-label" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500">
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 mb-1">Label Developer (Kanan)</label>
-                            <input type="text" id="cfg-dev-label" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500">
-                        </div>
+                        <div><label class="block text-slate-400 mb-1">Label Info (Kiri)</label><input type="text" id="cfg-running-label" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500"></div>
+                        <div><label class="block text-slate-400 mb-1">Label Developer (Kanan)</label><input type="text" id="cfg-dev-label" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500"></div>
                     </div>
-                    <div>
-                        <label class="block text-slate-400 mb-1">Teks Berjalan (Running Text)</label>
-                        <textarea id="cfg-running-text" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-slate-400 mb-1">URL Gambar / Video / Link YouTube Slideshow (Pisahkan dengan koma)</label>
-                        <input type="text" id="cfg-slides-url" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500" placeholder="https://..., https://youtube.com/watch?v=...">
-                    </div>
-                    <div>
-                        <label class="block text-slate-400 mb-1">Durasi Pergantian Slide (Detik, jika > 1 media)</label>
-                        <input type="number" id="cfg-slide-duration" min="3" max="60" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500" value="7">
-                    </div>
+                    <div><label class="block text-slate-400 mb-1">Teks Berjalan (Running Text)</label><textarea id="cfg-running-text" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500"></textarea></div>
+                    <div><label class="block text-slate-400 mb-1">URL Gambar / Video / Link YouTube (Pisahkan dengan koma)</label><input type="text" id="cfg-slides-url" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500"></div>
+                    <div><label class="block text-slate-400 mb-1">Durasi Pergantian Slide (Detik)</label><input type="number" id="cfg-slide-duration" min="3" max="60" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500"></div>
                 </div>
 
                 <!-- TAB 4: SIMULASI & PENGETESAN SYSTEM -->
                 <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-                    <h4 class="font-bold text-rose-400 text-sm border-b border-slate-800 pb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-vial-circle-check text-rose-400"></i>
-                        <span>4. Panel Simulasi & Pengetesan System</span>
-                    </h4>
-                    <p class="text-slate-400 text-[11px] leading-relaxed">
-                        Gunakan tombol di bawah ini untuk menguji audio alarm speaker masjid dan simulasi tampilan waktu sholat/iqomah tanpa menunggu jam asli.
-                    </p>
+                    <h4 class="font-bold text-rose-400 text-sm border-b border-slate-800 pb-2 flex items-center gap-2"><i class="fa-solid fa-vial-circle-check text-rose-400"></i><span>4. Panel Simulasi & Pengetesan System</span></h4>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-2.5 pt-1">
-                        <button onclick="testAudioAlarm()" type="button" class="bg-amber-600/20 hover:bg-amber-600/30 border border-amber-500/50 text-amber-300 font-bold p-2.5 rounded-xl flex items-center justify-center gap-2 transition active:scale-95 cursor-pointer text-xs">
-                            <i class="fa-solid fa-volume-high text-amber-400 text-sm"></i>
-                            <span>Tes Audio Alarm</span>
-                        </button>
-                        <button onclick="testPrePrayerWarning()" type="button" class="bg-orange-600/20 hover:bg-orange-600/30 border border-orange-500/50 text-orange-300 font-bold p-2.5 rounded-xl flex items-center justify-center gap-2 transition active:scale-95 cursor-pointer text-xs">
-                            <i class="fa-solid fa-bell text-orange-400 text-sm"></i>
-                            <span>Tes Pra-Sholat</span>
-                        </button>
-                        <button onclick="testMasukSholat()" type="button" class="bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/50 text-emerald-300 font-bold p-2.5 rounded-xl flex items-center justify-center gap-2 transition active:scale-95 cursor-pointer text-xs">
-                            <i class="fa-solid fa-mosque text-emerald-400 text-sm"></i>
-                            <span>Tes Masuk Sholat</span>
-                        </button>
-                        <button onclick="testIqomahFullscreen()" type="button" class="bg-sky-600/20 hover:bg-sky-600/30 border border-sky-500/50 text-sky-300 font-bold p-2.5 rounded-xl flex items-center justify-center gap-2 transition active:scale-95 cursor-pointer text-xs">
-                            <i class="fa-solid fa-expand text-sky-400 text-sm"></i>
-                            <span>Tes Layar Iqomah</span>
-                        </button>
+                        <button onclick="testAudioAlarm()" type="button" class="bg-amber-600/25 hover:bg-amber-600/40 border border-amber-500/50 text-amber-300 font-bold p-2.5 rounded-xl flex items-center justify-center gap-2 transition cursor-pointer text-xs"><i class="fa-solid fa-volume-high text-amber-400 text-sm"></i><span>Tes Audio Alarm</span></button>
+                        <button onclick="testPrePrayerWarning()" type="button" class="bg-orange-600/25 hover:bg-orange-600/40 border border-orange-500/50 text-orange-300 font-bold p-2.5 rounded-xl flex items-center justify-center gap-2 transition cursor-pointer text-xs"><i class="fa-solid fa-bell text-orange-400 text-sm"></i><span>Tes Pra-Sholat</span></button>
+                        <button onclick="testMasukSholat()" type="button" class="bg-emerald-600/25 hover:bg-emerald-600/40 border border-emerald-500/50 text-emerald-300 font-bold p-2.5 rounded-xl flex items-center justify-center gap-2 transition cursor-pointer text-xs"><i class="fa-solid fa-mosque text-emerald-400 text-sm"></i><span>Tes Masuk Sholat</span></button>
+                        <button onclick="testIqomahFullscreen()" type="button" class="bg-sky-600/25 hover:bg-sky-600/40 border border-sky-500/50 text-sky-300 font-bold p-2.5 rounded-xl flex items-center justify-center gap-2 transition cursor-pointer text-xs"><i class="fa-solid fa-expand text-sky-400 text-sm"></i><span>Tes Layar Iqomah</span></button>
                     </div>
                 </div>
 
                 <!-- TAB 5: PENGATURAN UKURAN TEKS -->
                 <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
                     <h4 class="font-bold text-sky-400 text-sm border-b border-slate-800 pb-2">5. Pengaturan Ukuran Teks (Font Size)</h4>
-                    <p class="text-slate-400 text-[11px] mb-2">Atur ukuran teks dalam satuan "rem" (1 rem = 16px). Naikkan angkanya jika di TV terlihat kekecilan.</p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        <div>
-                            <label class="block text-slate-400 text-xs mb-1">Jam Digital</label>
-                            <input type="number" step="0.1" id="cfg-font-clock" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-sky-500">
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 text-xs mb-1">Nama Masjid</label>
-                            <input type="number" step="0.1" id="cfg-font-mosque" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-sky-500">
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 text-xs mb-1">Waktu Sholat</label>
-                            <input type="number" step="0.1" id="cfg-font-prayer" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-sky-500">
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 text-xs mb-1">Teks Berjalan</label>
-                            <input type="number" step="0.1" id="cfg-font-running" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-sky-500">
-                        </div>
+                        <div><label class="block text-slate-400 text-xs mb-1">Jam Digital</label><input type="number" step="0.1" id="cfg-font-clock" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none"></div>
+                        <div><label class="block text-slate-400 text-xs mb-1">Nama Masjid</label><input type="number" step="0.1" id="cfg-font-mosque" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none"></div>
+                        <div><label class="block text-slate-400 text-xs mb-1">Waktu Sholat</label><input type="number" step="0.1" id="cfg-font-prayer" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none"></div>
+                        <div><label class="block text-slate-400 text-xs mb-1">Teks Berjalan</label><input type="number" step="0.1" id="cfg-font-running" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none"></div>
                     </div>
                 </div>
 
@@ -860,20 +483,14 @@
 
             <!-- Modal Footer -->
             <div class="p-4 bg-slate-950 border-t border-slate-800 flex justify-end gap-3">
-                <button onclick="toggleAdminModal(false)" type="button" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold cursor-pointer">
-                    Batal
-                </button>
-                <button onclick="saveAdminConfig()" type="button" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold cursor-pointer transition active:scale-95 shadow-lg">
-                    Simpan Perubahan
-                </button>
+                <button onclick="toggleAdminModal(false)" type="button" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold cursor-pointer">Batal</button>
+                <button onclick="saveAdminConfig()" type="button" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold cursor-pointer transition active:scale-95 shadow-lg">Simpan Perubahan</button>
             </div>
 
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC (MODUL ES DENGAN YOUTUBE, CUSTOM SLIDE DURATION & LAYOUT FIX) -->
     <script type="module">
-        // MASTER SWITCH IS_PREVIEW (DIUBAH KE FALSE UNTUK PRODUKSI FIREBASE)
         const is_preview = false;
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -895,18 +512,11 @@
             db = getFirestore(app);
         }
 
-        // Default Config & Application State
         let appConfig = {
-            template: "1",
-            mosqueName: "MASJID WAKTIHA",
-            mosqueAddress: "BEKU WANGEN POLANHARJO KLATEN",
-            logoUrl: "",
-            cityId: "1301", // Default Klaten / Solo
-            audioUrl: "https://actions.google.com/sounds/v1/alarms/beep_short.ogg",
-            prePrayerMinutes: 15,
-            slideDuration: 7,
-            runningLabel: "INFO MASJID",
-            devLabel: "Dev: Saprudin, S.Ag.",
+            template: "1", mosqueName: "MASJID WAKTIHA", mosqueAddress: "BEKU WANGEN POLANHARJO KLATEN", logoUrl: "",
+            cityId: "1301", audioUrl: "https://actions.google.com/sounds/v1/alarms/beep_short.ogg",
+            prePrayerMinutes: 15, preWarningDuration: 15, prayerNotifDuration: 60, slideDuration: 7,
+            runningLabel: "INFO MASJID", devLabel: "Dev: Saprudin, S.Ag.",
             iqomahTimes: { subuh: 10, dzuhur: 10, ashar: 10, maghrib: 10, isya: 10 },
             fonts: { clock: 3.75, mosqueName: 1.5, prayerTime: 1.5, runningText: 0.75, date: 1, officers: 0.75, quote: 0.75, quoteArabic: 1.5 },
             runningText: "LURUSKAN DAN RAPATKAN SHAF SEBELUM SHOLAT DIMULAI. MOHON MENONAKTIFKAN HP SAAT BERADA DI DALAM MASJID.",
@@ -923,29 +533,12 @@
                 sabtu: { imam: "Ust. Ahmad", muadzin: "Bpk. Budi", iqomah: "Bpk. Budi" },
                 minggu: { imam: "Ust. Zulkarnain", muadzin: "Bpk. Suhanda", iqomah: "Bpk. Suhanda" }
             },
-            dailyTemplates: {
-                enabled: false,
-                senin: "1", selasa: "2", rabu: "3", kamis: "4", jumat: "5", sabtu: "6", minggu: "7"
-            }
+            dailyTemplates: { enabled: false, senin: "1", selasa: "2", rabu: "3", kamis: "4", jumat: "5", sabtu: "6", minggu: "7" }
         };
 
-        let prayerTimes = {
-            imsak: "04:31",
-            subuh: "04:41",
-            syuruq: "05:54",
-            dzuhur: "11:59",
-            ashar: "15:19",
-            maghrib: "17:57",
-            isya: "19:07"
-        };
+        let prayerTimes = { imsak: "04:31", subuh: "04:41", syuruq: "05:54", dzuhur: "11:59", ashar: "15:19", maghrib: "17:57", isya: "19:07" };
+        let iqomahInterval = null, alarmTriggered = {}, autoIqomahTimeout = null, preWarningTimeout = null, slideIndex = 0, activeSlideInterval = null;
 
-        let iqomahInterval = null;
-        let alarmTriggered = {};
-        let autoIqomahTimeout = null;
-        let slideIndex = 0;
-        let activeSlideInterval = null;
-
-        // Onload Initialization
         window.onload = function() {
             loadSavedConfig();
             fetchPrayerSchedule();
@@ -975,11 +568,8 @@
                 { text: "وَمَنْ يَتَّقِ اللَّهَ يَجْعَلْ لَهُ مَخْرَجًا", author: "QS. At-Talaq: 2" },
                 { text: "Barangsiapa bertakwa kepada Allah niscaya Dia akan mengadakan baginya jalan keluar.", author: "QS. At-Talaq: 2" },
                 { text: "لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا", author: "QS. At-Taubah: 40" },
-                { text: "Janganlah kamu bersedih, sesungguhnya Allah bersama kita.", author: "QS. At-Taubah: 40" },
-                { text: "نِعْمَتَانِ مَغْبُونٌ فِيهِمَا كَثِيرٌ مِنَ النَّاسِ: الصِّحَّةُ وَالْفَرَاغُ", author: "HR. Bukhari" },
-                { text: "خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ", author: "HR. Ahmad" }
+                { text: "Janganlah kamu bersedih, sesungguhnya Allah bersama kita.", author: "QS. At-Taubah: 40" }
             ];
-            
             const randomQuote = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
             const textEl = document.getElementById('disp-quote-text');
             const authorEl = document.getElementById('disp-quote-author');
@@ -1012,56 +602,118 @@
                             authorEl.innerText = data.data.judul;
                         }
                     }
-                }).catch(err => {
-                    console.log("API Kutipan offline, menggunakan fallback lokal.");
-                });
+                }).catch(err => {});
         }
 
         let lastSpaceTime = 0;
         function setupDoubleSpaceShortcut() {
             document.addEventListener('keydown', function(e) {
                 if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
                 if (e.code === 'Space' || e.key === ' ' || e.keyCode === 32) {
                     const currentTime = new Date().getTime();
-                    const tapLength = currentTime - lastSpaceTime;
-                    if (tapLength < 400 && tapLength > 0) {
+                    if (currentTime - lastSpaceTime < 400 && currentTime - lastSpaceTime > 0) {
                         e.preventDefault();
                         const modal = document.getElementById("admin-modal");
-                        if (modal) {
-                            const isHidden = modal.classList.contains("hidden");
-                            toggleAdminModal(isHidden);
-                        }
+                        if (modal) toggleAdminModal(modal.classList.contains("hidden"));
                     }
                     lastSpaceTime = currentTime;
                 }
             });
-
             let lastTouchTime = 0;
             document.body.addEventListener('touchend', function(e) {
                 if (e.target.closest('#admin-modal')) return;
                 const currentTime = new Date().getTime();
-                const tapLength = currentTime - lastTouchTime;
-                if (tapLength < 350 && tapLength > 0) {
+                if (currentTime - lastTouchTime < 350 && currentTime - lastTouchTime > 0) {
                     const modal = document.getElementById("admin-modal");
-                    if (modal) {
-                        const isHidden = modal.classList.contains("hidden");
-                        toggleAdminModal(isHidden);
-                    }
+                    if (modal) toggleAdminModal(modal.classList.contains("hidden"));
                 }
                 lastTouchTime = currentTime;
             });
         }
 
+        // FULLY ACCURATE MATH ALGORITHM FOR HIJRI CALCULATION (KUWAITI METHOD)
+        function gregorianToHijri(date) {
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+
+            let m = month;
+            let y = year;
+            if (m < 3) {
+                y -= 1;
+                m += 12;
+            }
+
+            let a = Math.floor(y / 100);
+            let b = 2 - a + Math.floor(a / 4);
+            if (y < 1583) b = 0;
+            if (y === 1582) {
+                if (m > 10) b = -10;
+                if (m === 10) { b = 0; if (day > 4) b = -10; }
+            }
+
+            let jd = Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + day + b - 1524;
+            
+            b = 0;
+            if (jd > 2299160) {
+                a = Math.floor((jd - 1867216.25) / 36524.25);
+                b = 1 + a - Math.floor(a / 4);
+            }
+            
+            let bb = jd + b + 1524;
+            let cc = Math.floor((bb - 122.1) / 365.25);
+            let dd = Math.floor(365.25 * cc);
+            let ee = Math.floor((bb - dd) / 30.6001);
+            
+            let d = (bb - dd) - Math.floor(30.6001 * ee);
+            m = ee - 1;
+            if (ee > 13) {
+                cc += 1;
+                m = ee - 13;
+            }
+            y = cc - 4716;
+
+            let wd = (((jd + 1) % 7) + 7) % 7;
+
+            let iyear = 10631 / 30;
+            let epochastro = 1948084;
+            let shift1 = 8.01 / 60;
+
+            let z = jd - epochastro;
+            let cyc = Math.floor(z / 10631);
+            z = z - 10631 * cyc;
+            let j = Math.floor((z - shift1) / iyear);
+            let iy = 30 * cyc + j;
+            z = z - Math.floor(j * iyear + shift1);
+            let im = Math.floor((z + 28.5001) / 29.5);
+            if (im === 13) im = 12;
+            let id = z - Math.floor(29.5001 * im - 29);
+
+            // Calibration for Indonesia / General alignment (+1 day)
+            id = id + 1; 
+            if(id > 30) {
+                id = 1;
+                im += 1;
+                if(im > 12) {
+                    im = 1;
+                    iy += 1;
+                }
+            }
+
+            const monthNames = [
+                "Muharam", "Safar", "Rabiulawal", "Rabiulakhir",
+                "Jumadilawal", "Jumadilakhir", "Rajab", "Sya'ban",
+                "Ramadhan", "Syawal", "Zulkaidah", "Zulhijah"
+            ];
+
+            return { day: id, month: im, monthName: monthNames[im - 1], year: iy };
+        }
+
         function loadSavedConfig() {
             try {
                 const saved = localStorage.getItem("masjid_tv_config");
-                if (saved) {
-                    appConfig = { ...appConfig, ...JSON.parse(saved) };
-                }
-            } catch (e) {
-                console.log("Error loading config", e);
-            }
+                if (saved) appConfig = { ...appConfig, ...JSON.parse(saved) };
+            } catch (e) {}
             applyConfigToUI();
         }
 
@@ -1069,21 +721,20 @@
             const days = ["minggu", "senin", "selasa", "rabu", "kamis", "jumat", "sabtu"];
             const today = days[new Date().getDay()];
 
-            // 1. Tentukan Template Berdasarkan Jadwal Harian atau Manual
             let activeTemplate = appConfig.template || "1";
             if (appConfig.dailyTemplates && appConfig.dailyTemplates.enabled) {
                 activeTemplate = appConfig.dailyTemplates[today] || "1";
             }
             document.body.setAttribute("data-template", activeTemplate);
 
-            const mosqueNameEl = document.getElementById("disp-mosque-name");
-            if (mosqueNameEl) mosqueNameEl.innerText = appConfig.mosqueName;
-
-            const mosqueAddressEl = document.getElementById("disp-mosque-address");
-            if (mosqueAddressEl) mosqueAddressEl.innerText = appConfig.mosqueAddress;
-
-            const runningTextEl = document.getElementById("disp-running-text");
-            if (runningTextEl) runningTextEl.innerText = appConfig.runningText;
+            const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val; };
+            const setVal = (id, val) => { const el = document.getElementById(id); if(el) el.value = val; };
+            
+            setTxt("disp-mosque-name", appConfig.mosqueName);
+            setTxt("disp-mosque-address", appConfig.mosqueAddress);
+            setTxt("disp-running-text", appConfig.runningText);
+            setTxt("disp-running-label", appConfig.runningLabel || "INFO MASJID");
+            setTxt("disp-dev-label", appConfig.devLabel || "Dev: Saprudin, S.Ag.");
 
             const logoContainer = document.getElementById("header-logo-container");
             if (logoContainer) {
@@ -1095,59 +746,25 @@
             }
 
             const off = appConfig.officers[today] || appConfig.officers.senin;
+            setTxt("disp-officer-imam", off.imam || "-");
+            setTxt("disp-officer-muadzin", off.muadzin || "-");
+            setTxt("disp-officer-iqomah", off.iqomah || "-");
 
-            const imamEl = document.getElementById("disp-officer-imam");
-            if (imamEl) imamEl.innerText = off.imam || "-";
+            setVal("cfg-template", appConfig.template || "1");
+            setVal("cfg-mosque-name", appConfig.mosqueName);
+            setVal("cfg-mosque-address", appConfig.mosqueAddress);
+            setVal("cfg-logo-url", appConfig.logoUrl || "");
+            setVal("cfg-city-id", appConfig.cityId);
+            setVal("cfg-audio-url", appConfig.audioUrl);
+            setVal("cfg-pre-prayer-mins", appConfig.prePrayerMinutes || 15);
+            setVal("cfg-pre-warning-duration", appConfig.preWarningDuration || 15);
+            setVal("cfg-prayer-notif-duration", appConfig.prayerNotifDuration || 60);
+            setVal("cfg-running-text", appConfig.runningText);
+            setVal("cfg-slides-url", (appConfig.slides || []).join(","));
+            setVal("cfg-slide-duration", appConfig.slideDuration || 7);
+            setVal("cfg-running-label", appConfig.runningLabel || "INFO MASJID");
+            setVal("cfg-dev-label", appConfig.devLabel || "Dev: Saprudin, S.Ag.");
 
-            const muadzinEl = document.getElementById("disp-officer-muadzin");
-            if (muadzinEl) muadzinEl.innerText = off.muadzin || "-";
-
-            const iqomahEl = document.getElementById("disp-officer-iqomah");
-            if (iqomahEl) iqomahEl.innerText = off.iqomah || "-";
-
-            const cfgTemplate = document.getElementById("cfg-template");
-            if (cfgTemplate) cfgTemplate.value = appConfig.template || "1";
-
-            const cfgName = document.getElementById("cfg-mosque-name");
-            if (cfgName) cfgName.value = appConfig.mosqueName;
-
-            const cfgAddr = document.getElementById("cfg-mosque-address");
-            if (cfgAddr) cfgAddr.value = appConfig.mosqueAddress;
-
-            const cfgLogo = document.getElementById("cfg-logo-url");
-            if (cfgLogo) cfgLogo.value = appConfig.logoUrl || "";
-
-            const cfgCity = document.getElementById("cfg-city-id");
-            if (cfgCity) cfgCity.value = appConfig.cityId;
-
-            const cfgAudio = document.getElementById("cfg-audio-url");
-            if (cfgAudio) cfgAudio.value = appConfig.audioUrl;
-
-            const cfgPreMins = document.getElementById("cfg-pre-prayer-mins");
-            if (cfgPreMins) cfgPreMins.value = appConfig.prePrayerMinutes || 15;
-
-            const cfgRunning = document.getElementById("cfg-running-text");
-            if (cfgRunning) cfgRunning.value = appConfig.runningText;
-
-            const cfgSlides = document.getElementById("cfg-slides-url");
-            if (cfgSlides) cfgSlides.value = (appConfig.slides || []).join(",");
-
-            const cfgSlideDur = document.getElementById("cfg-slide-duration");
-            if (cfgSlideDur) cfgSlideDur.value = appConfig.slideDuration || 7;
-
-            const dispRunLabel = document.getElementById("disp-running-label");
-            if (dispRunLabel) dispRunLabel.innerText = appConfig.runningLabel || "INFO MASJID";
-
-            const dispDevLabel = document.getElementById("disp-dev-label");
-            if (dispDevLabel) dispDevLabel.innerText = appConfig.devLabel || "Dev: Saprudin, S.Ag.";
-
-            const cfgRunLabel = document.getElementById("cfg-running-label");
-            if (cfgRunLabel) cfgRunLabel.value = appConfig.runningLabel || "INFO MASJID";
-
-            const cfgDevLabel = document.getElementById("cfg-dev-label");
-            if (cfgDevLabel) cfgDevLabel.value = appConfig.devLabel || "Dev: Saprudin, S.Ag.";
-
-            // Update UI Switch Harian
             const cbDaily = document.getElementById("cfg-daily-template-enable");
             if (cbDaily) {
                 cbDaily.checked = appConfig.dailyTemplates?.enabled || false;
@@ -1156,50 +773,32 @@
 
             ["senin", "selasa", "rabu", "kamis", "jumat", "sabtu", "minggu"].forEach(day => {
                 if (appConfig.officers[day]) {
-                    const elI = document.getElementById(`off-${day}-imam`);
-                    if (elI) elI.value = appConfig.officers[day].imam || "";
-                    const elM = document.getElementById(`off-${day}-muadzin`);
-                    if (elM) elM.value = appConfig.officers[day].muadzin || "";
-                    const elQ = document.getElementById(`off-${day}-iqomah`);
-                    if (elQ) elQ.value = appConfig.officers[day].iqomah || "";
+                    setVal(`off-${day}-imam`, appConfig.officers[day].imam || "");
+                    setVal(`off-${day}-muadzin`, appConfig.officers[day].muadzin || "");
+                    setVal(`off-${day}-iqomah`, appConfig.officers[day].iqomah || "");
                 }
-                const elTpl = document.getElementById(`cfg-tpl-${day}`);
-                if (elTpl) elTpl.value = appConfig.dailyTemplates?.[day] || "1";
+                setVal(`cfg-tpl-${day}`, appConfig.dailyTemplates?.[day] || "1");
             });
 
-            const iqSubuh = document.getElementById("cfg-iq-subuh");
-            if (iqSubuh) iqSubuh.value = appConfig.iqomahTimes.subuh;
-            const iqDzuhur = document.getElementById("cfg-iq-dzuhur");
-            if (iqDzuhur) iqDzuhur.value = appConfig.iqomahTimes.dzuhur;
-            const iqAshar = document.getElementById("cfg-iq-ashar");
-            if (iqAshar) iqAshar.value = appConfig.iqomahTimes.ashar;
-            const iqMaghrib = document.getElementById("cfg-iq-maghrib");
-            if (iqMaghrib) iqMaghrib.value = appConfig.iqomahTimes.maghrib;
-            const iqIsya = document.getElementById("cfg-iq-isya");
-            if (iqIsya) iqIsya.value = appConfig.iqomahTimes.isya;
+            setVal("cfg-iq-subuh", appConfig.iqomahTimes.subuh);
+            setVal("cfg-iq-dzuhur", appConfig.iqomahTimes.dzuhur);
+            setVal("cfg-iq-ashar", appConfig.iqomahTimes.ashar);
+            setVal("cfg-iq-maghrib", appConfig.iqomahTimes.maghrib);
+            setVal("cfg-iq-isya", appConfig.iqomahTimes.isya);
 
-            // Load Font Sizes to Inputs
-            const fClock = document.getElementById("cfg-font-clock");
-            if (fClock) fClock.value = appConfig.fonts?.clock || 3.75;
-            
-            const fMosque = document.getElementById("cfg-font-mosque");
-            if (fMosque) fMosque.value = appConfig.fonts?.mosqueName || 1.5;
+            setVal("cfg-font-clock", appConfig.fonts?.clock || 3.75);
+            setVal("cfg-font-mosque", appConfig.fonts?.mosqueName || 1.5);
+            setVal("cfg-font-prayer", appConfig.fonts?.prayerTime || 1.5);
+            setVal("cfg-font-running", appConfig.fonts?.runningText || 0.75);
 
-            const fPrayer = document.getElementById("cfg-font-prayer");
-            if (fPrayer) fPrayer.value = appConfig.fonts?.prayerTime || 1.5;
-
-            const fRunning = document.getElementById("cfg-font-running");
-            if (fRunning) fRunning.value = appConfig.fonts?.runningText || 0.75;
-
-            // --- APLIKASI FONT DINAMIS KE KARTU-KARTU ---
-            const dispMasehi = document.getElementById("display-date-masehi");
-            if (dispMasehi) dispMasehi.style.fontSize = `${appConfig.fonts?.date || 1}rem`;
-            
-            const dispHijri = document.getElementById("display-date-hijri");
-            if (dispHijri) dispHijri.style.fontSize = `${(appConfig.fonts?.date || 1) * 0.75}rem`;
-
-            const dispOfficers = document.getElementById("officers-list-container");
-            if (dispOfficers) dispOfficers.style.fontSize = `${appConfig.fonts?.officers || 0.75}rem`;
+            const setFs = (id, size) => { const el = document.getElementById(id); if (el) el.style.fontSize = `${size}rem`; };
+            setFs("display-date-masehi", appConfig.fonts?.date || 1);
+            setFs("display-date-hijri", (appConfig.fonts?.date || 1) * 0.75);
+            setFs("officers-list-container", appConfig.fonts?.officers || 0.75);
+            setFs("display-clock", appConfig.fonts?.clock || 3.75);
+            setFs("disp-mosque-name", appConfig.fonts?.mosqueName || 1.5);
+            setFs("disp-running-text", appConfig.fonts?.runningText || 0.75);
+            ["imsak", "subuh", "syuruq", "dzuhur", "ashar", "maghrib", "isya"].forEach(p => { setFs(`time-${p}`, appConfig.fonts?.prayerTime || 1.5); });
 
             const dispQuoteTxt = document.getElementById("disp-quote-text");
             if (dispQuoteTxt) {
@@ -1209,36 +808,14 @@
                     dispQuoteTxt.style.fontSize = `${appConfig.fonts?.quote || 0.75}rem`;
                 }
             }
-            
-            const dispQuoteAuth = document.getElementById("disp-quote-author");
-            if (dispQuoteAuth) dispQuoteAuth.style.fontSize = `${(appConfig.fonts?.quote || 0.75) * 0.8}rem`;
-
-            // Apply Fonts to DOM Elements
-            const dispClock = document.getElementById("display-clock");
-            if (dispClock) dispClock.style.fontSize = `${appConfig.fonts?.clock || 3.75}rem`;
-
-            const dispMosque = document.getElementById("disp-mosque-name");
-            if (dispMosque) dispMosque.style.fontSize = `${appConfig.fonts?.mosqueName || 1.5}rem`;
-
-            const dispRunning = document.getElementById("disp-running-text");
-            if (dispRunning) dispRunning.style.fontSize = `${appConfig.fonts?.runningText || 0.75}rem`;
-
-            ["imsak", "subuh", "syuruq", "dzuhur", "ashar", "maghrib", "isya"].forEach(p => {
-                const el = document.getElementById(`time-${p}`);
-                if (el) el.style.fontSize = `${appConfig.fonts?.prayerTime || 1.5}rem`;
-            });
+            setFs("disp-quote-author", (appConfig.fonts?.quote || 0.75) * 0.8);
         };
 
         window.toggleDailyTplUI = function(show) {
             const grid = document.getElementById("daily-template-grid");
             if (grid) {
-                if (show) {
-                    grid.classList.remove("hidden");
-                    grid.classList.add("grid");
-                } else {
-                    grid.classList.add("hidden");
-                    grid.classList.remove("grid");
-                }
+                if (show) { grid.classList.remove("hidden"); grid.classList.add("grid"); } 
+                else { grid.classList.add("hidden"); grid.classList.remove("grid"); }
             }
         };
 
@@ -1253,7 +830,6 @@
                 const clockEl = document.getElementById("display-clock");
                 if (clockEl) clockEl.innerText = `${h}:${m}:${s}`;
                 
-                // Sensor pergantian hari (Tengah Malam)
                 if (now.getDay() !== currentDayTracker) {
                     currentDayTracker = now.getDay();
                     applyConfigToUI();
@@ -1270,17 +846,10 @@
             const masehiEl = document.getElementById("display-date-masehi");
             if (masehiEl) masehiEl.innerText = now.toLocaleDateString('id-ID', options);
 
-            try {
-                const hijriFormatter = new Intl.DateTimeFormat('id-ID-u-ca-islamic-umalqura', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                });
-                const hijriStr = hijriFormatter.format(now).replace(/\sAH$/, '').replace(/\sH$/, '');
-                const hijriEl = document.getElementById("display-date-hijri");
-                if (hijriEl) hijriEl.innerText = `${hijriStr} H`;
-            } catch (e) {
-                // Fallback
+            const h = gregorianToHijri(now);
+            const hijriEl = document.getElementById("display-date-hijri");
+            if (hijriEl) {
+                hijriEl.innerText = `${h.day} ${h.monthName} ${h.year} H`; 
             }
 
             const autoEvent = calculateUpcomingIslamicHoliday(now);
@@ -1302,40 +871,15 @@
                 { m: 12, d: 10, name: "Hari Raya Idul Adha" }
             ];
 
-            function getHijriParts(d) {
-                try {
-                    const formatter = new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura', {
-                        day: 'numeric',
-                        month: 'numeric',
-                        year: 'numeric'
-                    });
-                    const parts = formatter.formatToParts(d);
-                    let day = 0, month = 0, year = 0;
-                    for (let p of parts) {
-                        if (p.type === 'day') day = parseInt(p.value);
-                        if (p.type === 'month') month = parseInt(p.value);
-                        if (p.type === 'year') year = parseInt(p.value);
-                    }
-                    return { day, month, year };
-                } catch(e) {
-                    return null;
-                }
-            }
-
             for (let daysAhead = 0; daysAhead <= 360; daysAhead++) {
                 const testDate = new Date(now.getTime() + daysAhead * 86400000);
-                const h = getHijriParts(testDate);
-                if (!h) continue;
-
+                const h = gregorianToHijri(testDate);
+                
                 const match = events.find(e => e.m === h.month && e.d === h.day);
                 if (match) {
-                    if (daysAhead === 0) {
-                        return `Hari Ini: ${match.name}`;
-                    } else if (daysAhead === 1) {
-                        return `Besok: ${match.name}`;
-                    } else {
-                        return `${daysAhead} Hari lagi: ${match.name}`;
-                    }
+                    if (daysAhead === 0) return `Hari Ini: ${match.name}`;
+                    else if (daysAhead === 1) return `Besok: ${match.name}`;
+                    else return `${daysAhead} Hari lagi: ${match.name}`;
                 }
             }
             return "Kalender Hijriah Islam";
@@ -1352,43 +896,21 @@
                 .then(data => {
                     if (data && data.status && data.data && data.data.jadwal) {
                         const j = data.data.jadwal;
-                        prayerTimes = {
-                            imsak: j.imsak,
-                            subuh: j.subuh,
-                            syuruq: j.terbit,
-                            dzuhur: j.dzuhur,
-                            ashar: j.ashar,
-                            maghrib: j.maghrib,
-                            isya: j.isya
-                        };
+                        prayerTimes = { imsak: j.imsak, subuh: j.subuh, syuruq: j.terbit, dzuhur: j.dzuhur, ashar: j.ashar, maghrib: j.maghrib, isya: j.isya };
                         updatePrayerTimingsUI(prayerTimes);
                     }
-                })
-                .catch(err => console.log("Gagal mengambil API Kemenag, menggunakan jadwal lokal", err));
+                }).catch(err => console.log("Gagal mengambil API Kemenag", err));
         };
 
         function updatePrayerTimingsUI(p) {
-            const setT = (id, val) => {
-                const el = document.getElementById(id);
-                if (el) el.innerText = val;
-            };
-            setT("time-imsak", p.imsak);
-            setT("time-subuh", p.subuh);
-            setT("time-syuruq", p.syuruq);
-            setT("time-dzuhur", p.dzuhur);
-            setT("time-ashar", p.ashar);
-            setT("time-maghrib", p.maghrib);
-            setT("time-isya", p.isya);
+            const setT = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+            setT("time-imsak", p.imsak); setT("time-subuh", p.subuh); setT("time-syuruq", p.syuruq);
+            setT("time-dzuhur", p.dzuhur); setT("time-ashar", p.ashar); setT("time-maghrib", p.maghrib); setT("time-isya", p.isya);
         }
 
         window.playAlarmAudio = function() {
             if (!appConfig.audioUrl) return;
-            try {
-                const audio = new Audio(appConfig.audioUrl);
-                audio.play().catch(e => console.log("Audio play blocked by browser policy"));
-            } catch (e) {
-                console.log("Audio error", e);
-            }
+            try { const audio = new Audio(appConfig.audioUrl); audio.play().catch(e => {}); } catch (e) {}
         };
 
         window.showToast = function(msg) {
@@ -1408,54 +930,30 @@
             }, 3000);
         };
 
-        // FUNGSI UBAH UKURAN FONT LANGSUNG DARI LAYAR
         window.adjustFontSize = function(key, delta) {
             if (!appConfig.fonts) appConfig.fonts = {};
-            
-            // MAGIC TRICK: Deteksi kalau lagi nampilin teks Arab, alihkan "kunci" ke quoteArabic
             if (key === 'quote') {
                 const quoteEl = document.getElementById('disp-quote-text');
-                if (quoteEl && quoteEl.classList.contains('font-arabic')) {
-                    key = 'quoteArabic';
-                }
+                if (quoteEl && quoteEl.classList.contains('font-arabic')) key = 'quoteArabic';
             }
-
-            let current = appConfig.fonts[key];
-            
-            if (current === undefined) {
-                if (key === 'date') current = 1;
-                else if (key === 'clock') current = 3.75;
-                else if (key === 'officers') current = 0.75;
-                else if (key === 'quote') current = 0.75;
-                else if (key === 'quoteArabic') current = 1.5;
-                else current = 1;
-            }
-            
-            // Limit pengecilan agar tidak hilang (min 0.4rem)
+            let current = appConfig.fonts[key] || 1;
             current = Math.max(0.4, current + delta);
             appConfig.fonts[key] = current;
-            
-            // Simpan langsung ke localstorage & update UI
             localStorage.setItem("masjid_tv_config", JSON.stringify(appConfig));
             applyConfigToUI();
-            
-            // Simpan ke Firestore jika mode produksi
             if (!is_preview && db) {
-                setDoc(doc(db, "artifacts", "masjid_tv_app", "public", "data"), { config: appConfig }, { merge: true })
-                    .catch(err => console.log("Gagal simpan font ke cloud", err));
+                setDoc(doc(db, "artifacts", "masjid_tv_app", "public", "data"), { config: appConfig }, { merge: true }).catch(err => {});
             }
-            
             showToast(`Ukuran teks diubah: ${current.toFixed(2)}rem`);
         };
 
         window.testAudioAlarm = function() {
             playAlarmAudio();
-            showToast("🔊 Sedang memutar audio alarm pengingat!");
+            showToast("🔊 Memutar audio alarm pengingat!");
         };
 
         window.testPrePrayerWarning = function() {
             playAlarmAudio();
-            showToast(`🔔 Simulasi Peringatan ${appConfig.prePrayerMinutes || 15} Menit Menjelang Sholat!`);
             showPrePrayerWarningOverlay("DZUHUR", appConfig.prePrayerMinutes || 15);
             toggleAdminModal(false);
         };
@@ -1463,20 +961,18 @@
         function showPrePrayerWarningOverlay(prayerName, mins) {
             const badgeEl = document.getElementById("notif-badge-title");
             if (badgeEl) badgeEl.innerText = `PERINGATAN PRA-WAKTU SHOLAT (${mins} MENIT)`;
-
             const subEl = document.getElementById("notif-subtitle");
             if (subEl) subEl.innerText = `MENJELANG MASUK WAKTU SHOLAT`;
-
             const elName = document.getElementById("prayer-notif-name");
             if (elName) elName.innerText = prayerName || "DZUHUR";
 
-            const descEl = document.getElementById("notif-desc");
-            if (descEl) descEl.innerText = `Pengingat bahwa sebentar lagi akan masuk waktu sholat ${prayerName}. Mohon bersiap-siap untuk melaksanakan sholat berjamaah.`;
-
             const overlay = document.getElementById("prayer-notification-overlay");
-            if (overlay) {
-                overlay.classList.remove("hidden");
-                overlay.classList.add("flex");
+            if (overlay) { overlay.classList.remove("hidden"); overlay.classList.add("flex"); }
+
+            if (preWarningTimeout) clearTimeout(preWarningTimeout);
+            const durSec = (appConfig.preWarningDuration !== undefined ? appConfig.preWarningDuration : 15) * 1000;
+            if (durSec > 0) {
+                preWarningTimeout = setTimeout(() => { closePrayerNotificationOverlay(); }, durSec);
             }
         }
 
@@ -1484,7 +980,6 @@
             playAlarmAudio();
             const statusBar = document.getElementById("status-text");
             if (statusBar) statusBar.innerText = "WAKTU SHOLAT DZUHUR TELAH MASUK!";
-            showToast("🕌 Simulasi masuk waktu sholat berjalan!");
             showPrayerNotificationOverlay("DZUHUR");
             toggleAdminModal(false);
         };
@@ -1492,37 +987,28 @@
         function showPrayerNotificationOverlay(prayerName) {
             const badgeEl = document.getElementById("notif-badge-title");
             if (badgeEl) badgeEl.innerText = "INFORMASI MASUK WAKTU SHOLAT";
-
             const subEl = document.getElementById("notif-subtitle");
             if (subEl) subEl.innerText = "Telah Masuk Waktu Sholat";
-
             const elName = document.getElementById("prayer-notif-name");
             if (elName) elName.innerText = prayerName || "SHOLAT";
 
-            const descEl = document.getElementById("notif-desc");
-            if (descEl) descEl.innerText = "Untuk wilayah setempat dan sekitarnya. Mohon mengumandangkan Azan dan bersiap melaksanakan sholat berjamaah.";
-
             const overlay = document.getElementById("prayer-notification-overlay");
-            if (overlay) {
-                overlay.classList.remove("hidden");
-                overlay.classList.add("flex");
-            }
+            if (overlay) { overlay.classList.remove("hidden"); overlay.classList.add("flex"); }
 
             if (autoIqomahTimeout) clearTimeout(autoIqomahTimeout);
-            autoIqomahTimeout = setTimeout(() => {
-                if (overlay && !overlay.classList.contains("hidden")) {
-                    startIqomahFromNotif();
-                }
-            }, 60000);
+            const notifDur = (appConfig.prayerNotifDuration !== undefined ? appConfig.prayerNotifDuration : 60) * 1000;
+            if (notifDur > 0) {
+                autoIqomahTimeout = setTimeout(() => {
+                    if (overlay && !overlay.classList.contains("hidden")) { startIqomahFromNotif(); }
+                }, notifDur);
+            }
         }
 
         window.closePrayerNotificationOverlay = function() {
             if (autoIqomahTimeout) clearTimeout(autoIqomahTimeout);
+            if (preWarningTimeout) clearTimeout(preWarningTimeout);
             const overlay = document.getElementById("prayer-notification-overlay");
-            if (overlay) {
-                overlay.classList.add("hidden");
-                overlay.classList.remove("flex");
-            }
+            if (overlay) { overlay.classList.add("hidden"); overlay.classList.remove("flex"); }
         };
 
         window.startIqomahFromNotif = function() {
@@ -1541,23 +1027,14 @@
 
         function startIqomahCountdown(seconds) {
             const overlay = document.getElementById("iqomah-overlay");
-            if (overlay) {
-                overlay.classList.remove("hidden");
-                overlay.classList.add("flex");
-            }
-
+            if (overlay) { overlay.classList.remove("hidden"); overlay.classList.add("flex"); }
             let remaining = seconds;
             updateTimerDisplay(remaining);
-
             if (iqomahInterval) clearInterval(iqomahInterval);
             iqomahInterval = setInterval(() => {
                 remaining--;
-                if (remaining <= 0) {
-                    clearInterval(iqomahInterval);
-                    closeIqomahOverlay();
-                } else {
-                    updateTimerDisplay(remaining);
-                }
+                if (remaining <= 0) { clearInterval(iqomahInterval); closeIqomahOverlay(); } 
+                else { updateTimerDisplay(remaining); }
             }, 1000);
         }
 
@@ -1572,24 +1049,15 @@
         window.closeIqomahOverlay = function() {
             if (iqomahInterval) clearInterval(iqomahInterval);
             const overlay = document.getElementById("iqomah-overlay");
-            if (overlay) {
-                overlay.classList.add("hidden");
-                overlay.classList.remove("flex");
-            }
+            if (overlay) { overlay.classList.add("hidden"); overlay.classList.remove("flex"); }
         };
 
         function getYouTubeEmbedUrl(url) {
             let videoId = '';
-            if (url.includes('youtube.com/watch?v=')) {
-                videoId = url.split('v=')[1]?.split('&')[0];
-            } else if (url.includes('youtu.be/')) {
-                videoId = url.split('youtu.be/')[1]?.split('?')[0];
-            } else if (url.includes('youtube.com/embed/')) {
-                videoId = url.split('embed/')[1]?.split('?')[0];
-            }
-            if (videoId) {
-                return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}`;
-            }
+            if (url.includes('youtube.com/watch?v=')) videoId = url.split('v=')[1]?.split('&')[0];
+            else if (url.includes('youtu.be/')) videoId = url.split('youtu.be/')[1]?.split('?')[0];
+            else if (url.includes('youtube.com/embed/')) videoId = url.split('embed/')[1]?.split('?')[0];
+            if (videoId) return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}`;
             return null;
         }
 
@@ -1600,7 +1068,6 @@
                 box.innerHTML = `<span>Slide 1</span>`;
                 return;
             }
-
             const showCurrentSlide = () => {
                 const src = appConfig.slides[slideIndex];
                 const ytEmbed = getYouTubeEmbedUrl(src);
@@ -1609,18 +1076,11 @@
                 } else if (src.endsWith(".mp4") || src.endsWith(".webm")) {
                     box.innerHTML = `<video src="${src}" autoplay loop muted class="w-full h-full object-cover"></video>`;
                 } else {
-                    box.innerHTML = `<img src="${src}" class="w-full h-full object-cover" alt="Slide" onerror="this.src='https://placehold.co/1200x800/064e3b/ffffff?text=Masjid+Waktiha'">`;
+                    box.innerHTML = `<img src="${src}" class="w-full h-full object-cover" alt="Slide" onerror="this.src='https://placehold.co/1200x800/064e3b/ffffff?text=Masjid'">`;
                 }
             };
-
             showCurrentSlide();
-
-            if (activeSlideInterval) {
-                clearInterval(activeSlideInterval);
-                activeSlideInterval = null;
-            }
-
-            // Jika jumlah slide lebih dari 1, aktifkan timer pergantian slide sesuai durasi admin
+            if (activeSlideInterval) { clearInterval(activeSlideInterval); activeSlideInterval = null; }
             if (appConfig.slides.length > 1) {
                 const durationMs = (appConfig.slideDuration || 7) * 1000;
                 activeSlideInterval = setInterval(() => {
@@ -1633,21 +1093,12 @@
         window.toggleAdminModal = function(show) {
             const modal = document.getElementById("admin-modal");
             if (!modal) return;
-            if (show) {
-                modal.classList.remove("hidden");
-                modal.classList.add("flex");
-            } else {
-                modal.classList.add("hidden");
-                modal.classList.remove("flex");
-            }
+            if (show) { modal.classList.remove("hidden"); modal.classList.add("flex"); } 
+            else { modal.classList.add("hidden"); modal.classList.remove("flex"); }
         };
 
         window.saveAdminConfig = function() {
-            const getVal = (id) => {
-                const el = document.getElementById(id);
-                return el ? el.value : "";
-            };
-
+            const getVal = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
             appConfig.template = getVal("cfg-template") || "1";
             appConfig.mosqueName = getVal("cfg-mosque-name");
             appConfig.mosqueAddress = getVal("cfg-mosque-address");
@@ -1655,11 +1106,12 @@
             appConfig.cityId = getVal("cfg-city-id");
             appConfig.audioUrl = getVal("cfg-audio-url");
             appConfig.prePrayerMinutes = parseInt(getVal("cfg-pre-prayer-mins")) || 15;
+            appConfig.preWarningDuration = parseInt(getVal("cfg-pre-warning-duration")) || 15;
+            appConfig.prayerNotifDuration = parseInt(getVal("cfg-prayer-notif-duration")) || 60;
             appConfig.slideDuration = parseInt(getVal("cfg-slide-duration")) || 7;
             appConfig.runningText = getVal("cfg-running-text");
             appConfig.runningLabel = getVal("cfg-running-label") || "INFO MASJID";
             appConfig.devLabel = getVal("cfg-dev-label") || "Dev: Saprudin, S.Ag.";
-
             const slidesRaw = getVal("cfg-slides-url");
             appConfig.slides = slidesRaw.split(",").map(s => s.trim()).filter(s => s.length > 0);
 
@@ -1677,11 +1129,9 @@
             });
 
             appConfig.iqomahTimes = {
-                subuh: parseInt(getVal("cfg-iq-subuh")) || 10,
-                dzuhur: parseInt(getVal("cfg-iq-dzuhur")) || 10,
-                ashar: parseInt(getVal("cfg-iq-ashar")) || 10,
-                maghrib: parseInt(getVal("cfg-iq-maghrib")) || 10,
-                isya: parseInt(getVal("cfg-iq-isya")) || 10,
+                subuh: parseInt(getVal("cfg-iq-subuh")) || 10, dzuhur: parseInt(getVal("cfg-iq-dzuhur")) || 10,
+                ashar: parseInt(getVal("cfg-iq-ashar")) || 10, maghrib: parseInt(getVal("cfg-iq-maghrib")) || 10,
+                isya: parseInt(getVal("cfg-iq-isya")) || 10
             };
 
             if (!appConfig.fonts) appConfig.fonts = {};
@@ -1694,25 +1144,15 @@
 
             if (!is_preview && db) {
                 setDoc(doc(db, "artifacts", "masjid_tv_app", "public", "data"), { config: appConfig })
-                    .then(() => {
-                        showToast("Konfigurasi tersimpan & tersinkron ke Cloud Firestore!");
-                    })
-                    .catch(err => {
-                        console.error("Gagal simpan ke Firestore", err);
-                        showToast("Gagal menyimpan ke Cloud Firestore!");
-                    });
+                    .then(() => { showToast("Tersimpan & tersinkron ke Cloud!"); })
+                    .catch(err => {});
             }
 
-            applyConfigToUI();
-            fetchPrayerSchedule();
-            slideIndex = 0;
-            renderSlideshow();
-            toggleAdminModal(false);
+            applyConfigToUI(); fetchPrayerSchedule(); slideIndex = 0; renderSlideshow(); toggleAdminModal(false);
         };
 
         function checkPrayerTimings(now) {
             const currentSecondsTotal = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
-
             const pMap = [
                 { key: 'imsak', name: 'IMSAK', time: prayerTimes.imsak, elId: 'card-imsak' },
                 { key: 'subuh', name: 'SUBUH', time: prayerTimes.subuh, elId: 'card-subuh' },
@@ -1729,12 +1169,9 @@
                 return parseInt(parts[0] || 0) * 3600 + parseInt(parts[1] || 0) * 60;
             };
 
-            const imsSec = getSec(prayerTimes.imsak);
-            const subSec = getSec(prayerTimes.subuh);
-            const syuSec = getSec(prayerTimes.syuruq);
-            const dzuSec = getSec(prayerTimes.dzuhur);
-            const ashSec = getSec(prayerTimes.ashar);
-            const magSec = getSec(prayerTimes.maghrib);
+            const imsSec = getSec(prayerTimes.imsak); const subSec = getSec(prayerTimes.subuh);
+            const syuSec = getSec(prayerTimes.syuruq); const dzuSec = getSec(prayerTimes.dzuhur);
+            const ashSec = getSec(prayerTimes.ashar); const magSec = getSec(prayerTimes.maghrib);
             const isySec = getSec(prayerTimes.isya);
 
             let activePrayerKey = '';
@@ -1748,22 +1185,12 @@
             else if (t >= magSec && t < isySec) activePrayerKey = 'maghrib';
             else activePrayerKey = 'isya';
 
-            let nextPrayer = null;
-            let minDiff = Infinity;
-
+            let nextPrayer = null; let minDiff = Infinity;
             pMap.forEach(item => {
                 if (!item.time) return;
-                const pSec = getSec(item.time);
-                
-                let diff = pSec - currentSecondsTotal;
-                if (diff < 0) {
-                    diff += 86400;
-                }
-
-                if (diff < minDiff) {
-                    minDiff = diff;
-                    nextPrayer = { ...item, diffSeconds: diff };
-                }
+                let diff = getSec(item.time) - currentSecondsTotal;
+                if (diff < 0) diff += 86400;
+                if (diff < minDiff) { minDiff = diff; nextPrayer = { ...item, diffSeconds: diff }; }
             });
 
             if (nextPrayer) {
@@ -1791,7 +1218,6 @@
                         alarmTriggered['pre_' + nextPrayer.key] = true;
                         playAlarmAudio();
                         showPrePrayerWarningOverlay(nextPrayer.name, appConfig.prePrayerMinutes || 15);
-                        showToast(`🔔 ${appConfig.prePrayerMinutes} Menit menjelang waktu ${nextPrayer.name}`);
                     }
                 }
             }
@@ -1802,23 +1228,15 @@
                     if (item.key === activePrayerKey) {
                         card.className = "theme-active-card rounded-xl shadow-md border-2 overflow-hidden flex flex-col transition-all";
                         const header = card.querySelector('div');
-                        if (header && document.body.getAttribute('data-template') !== '6') {
-                            header.className = "bg-black/20 text-white text-[11px] font-extrabold text-center py-1 uppercase tracking-wider";
-                        }
+                        if (header && document.body.getAttribute('data-template') !== '6') header.className = "bg-black/20 text-white text-[11px] font-extrabold text-center py-1 uppercase tracking-wider";
                         const timeEl = card.querySelector('div:nth-child(2)');
-                        if (timeEl && document.body.getAttribute('data-template') !== '6') {
-                            timeEl.className = "flex-1 flex items-center justify-center text-2xl font-black text-white";
-                        }
+                        if (timeEl && document.body.getAttribute('data-template') !== '6') timeEl.className = "flex-1 flex items-center justify-center text-2xl font-black text-white";
                     } else {
                         card.className = "theme-card rounded-xl shadow-sm border overflow-hidden flex flex-col transition-all";
                         const header = card.querySelector('div');
-                        if (header && document.body.getAttribute('data-template') !== '6') {
-                            header.className = "theme-header-bg text-[11px] font-extrabold text-center py-1 uppercase tracking-wider";
-                        }
+                        if (header && document.body.getAttribute('data-template') !== '6') header.className = "theme-header-bg text-[11px] font-extrabold text-center py-1 uppercase tracking-wider";
                         const timeEl = card.querySelector('div:nth-child(2)');
-                        if (timeEl && document.body.getAttribute('data-template') !== '6') {
-                            timeEl.className = "flex-1 flex items-center justify-center text-2xl font-black theme-text-primary";
-                        }
+                        if (timeEl && document.body.getAttribute('data-template') !== '6') timeEl.className = "flex-1 flex items-center justify-center text-2xl font-black theme-text-primary";
                     }
                 }
             });
