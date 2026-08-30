@@ -404,6 +404,10 @@
                             <label class="block text-slate-400 mb-1">Durasi Masuk Sholat / Menuju Iqomah (Detik)</label>
                             <input type="number" id="cfg-prayer-notif-duration" placeholder="60" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500">
                         </div>
+                        <div>
+                            <label class="block text-amber-400 font-bold mb-1">🌙 Koreksi Kalender Hijriah (+/- Hari)</label>
+                            <input type="number" id="cfg-hijri-offset" placeholder="1" class="w-full bg-slate-900 border border-amber-500/60 rounded-lg p-2 text-white font-bold outline-none focus:border-amber-400">
+                        </div>
                     </div>
                 </div>
 
@@ -515,7 +519,7 @@
         let appConfig = {
             template: "1", mosqueName: "MASJID WAKTIHA", mosqueAddress: "BEKU WANGEN POLANHARJO KLATEN", logoUrl: "",
             cityId: "1301", audioUrl: "https://actions.google.com/sounds/v1/alarms/beep_short.ogg",
-            prePrayerMinutes: 15, preWarningDuration: 15, prayerNotifDuration: 60, slideDuration: 7,
+            prePrayerMinutes: 15, preWarningDuration: 15, prayerNotifDuration: 60, slideDuration: 7, hijriOffset: 1,
             runningLabel: "INFO MASJID", devLabel: "Dev: Saprudin, S.Ag.",
             iqomahTimes: { subuh: 10, dzuhur: 10, ashar: 10, maghrib: 10, isya: 10 },
             fonts: { clock: 3.75, mosqueName: 1.5, prayerTime: 1.5, runningText: 0.75, date: 1, officers: 0.75, quote: 0.75, quoteArabic: 1.5 },
@@ -633,9 +637,13 @@
 
         // FULLY ACCURATE MATH ALGORITHM FOR HIJRI CALCULATION (KUWAITI METHOD)
         function gregorianToHijri(date) {
-            let year = date.getFullYear();
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
+            // Terapkan koreksi hari dari pengaturan Admin (Default: +1 untuk Indonesia)
+            const offsetMs = (appConfig.hijriOffset !== undefined ? appConfig.hijriOffset : 1) * 86400000;
+            const adjustedDate = new Date(date.getTime() + offsetMs);
+
+            let year = adjustedDate.getFullYear();
+            let month = adjustedDate.getMonth() + 1;
+            let day = adjustedDate.getDate();
 
             let m = month;
             let y = year;
@@ -688,17 +696,6 @@
             let im = Math.floor((z + 28.5001) / 29.5);
             if (im === 13) im = 12;
             let id = z - Math.floor(29.5001 * im - 29);
-
-            // Calibration for Indonesia / General alignment (+1 day)
-            id = id + 1; 
-            if(id > 30) {
-                id = 1;
-                im += 1;
-                if(im > 12) {
-                    im = 1;
-                    iy += 1;
-                }
-            }
 
             const monthNames = [
                 "Muharam", "Safar", "Rabiulawal", "Rabiulakhir",
@@ -759,6 +756,7 @@
             setVal("cfg-pre-prayer-mins", appConfig.prePrayerMinutes || 15);
             setVal("cfg-pre-warning-duration", appConfig.preWarningDuration || 15);
             setVal("cfg-prayer-notif-duration", appConfig.prayerNotifDuration || 60);
+            setVal("cfg-hijri-offset", appConfig.hijriOffset !== undefined ? appConfig.hijriOffset : 1);
             setVal("cfg-running-text", appConfig.runningText);
             setVal("cfg-slides-url", (appConfig.slides || []).join(","));
             setVal("cfg-slide-duration", appConfig.slideDuration || 7);
@@ -1108,6 +1106,8 @@
             appConfig.prePrayerMinutes = parseInt(getVal("cfg-pre-prayer-mins")) || 15;
             appConfig.preWarningDuration = parseInt(getVal("cfg-pre-warning-duration")) || 15;
             appConfig.prayerNotifDuration = parseInt(getVal("cfg-prayer-notif-duration")) || 60;
+            appConfig.hijriOffset = parseInt(getVal("cfg-hijri-offset"));
+            if (isNaN(appConfig.hijriOffset)) appConfig.hijriOffset = 1;
             appConfig.slideDuration = parseInt(getVal("cfg-slide-duration")) || 7;
             appConfig.runningText = getVal("cfg-running-text");
             appConfig.runningLabel = getVal("cfg-running-label") || "INFO MASJID";
